@@ -28,7 +28,7 @@
                     "name": "Attack",
                     "type": "Button",
                     "id": "6c2ab1b8-8984-453a-af3d-a3c78ae1679a",
-                    "expectedControlType": "Button",
+                    "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
@@ -522,7 +522,7 @@
                     "id": "3c7022bf-7922-4f7c-a998-c437916075ad",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": "",
+                    "interactions": "Press",
                     "initialStateCheck": true
                 },
                 {
@@ -569,6 +569,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "RightHold",
+                    "type": "PassThrough",
+                    "id": "68d3efe4-67df-452c-9c9b-20d3089d9471",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
                 }
             ],
             "bindings": [
@@ -987,6 +996,17 @@
                     "processors": "",
                     "groups": "XR",
                     "action": "TrackedDeviceOrientation",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "39b3a4ef-1bd6-434d-a6a2-f6664d984a2f",
+                    "path": "<Mouse>/rightButton",
+                    "interactions": "Hold",
+                    "processors": "",
+                    "groups": ";Keyboard&Mouse",
+                    "action": "RightHold",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

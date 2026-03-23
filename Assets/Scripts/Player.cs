@@ -15,15 +15,22 @@ public class Player : NetworkBehaviour
     void Start()
     {
         mouseLeftClick = InputSystem.actions.FindAction("Click");
-        if (mouseLeftClick != null )
+        if (mouseLeftClick != null)
         {
             mouseLeftClick.performed += OnMouseClickAction;
         }
 
         keyboardWASD = InputSystem.actions.FindAction("Move");
-        if ( keyboardWASD != null )
+        if (keyboardWASD != null)
         {
             keyboardWASD.performed += OnKeyboardWASDAction;
+        }
+
+        mouseRightClick = InputSystem.actions.FindAction("RightHold");
+        if (mouseRightClick != null)
+        {
+            mouseRightClick.performed += OnRightMousePressed;
+            mouseRightClick.canceled += OnRightMouseReleased;
         }
     }
 
@@ -85,6 +92,18 @@ public class Player : NetworkBehaviour
         Debug.Log("Keyboard input: " + vector2.ToString());
     }
 
+    private void OnRightMousePressed(InputAction.CallbackContext obj)
+    {
+        isRightMouseHold = true;
+        Debug.Log("Right mouse clicked");
+    }
+
+    private void OnRightMouseReleased(InputAction.CallbackContext obj)
+    {
+        isRightMouseHold = false;
+        Debug.Log("Right mouse released");
+    }
+
     private HashSet<StationName> m_connectedStations;
     private int m_remainingCarts = 45;
     private HandDeck m_handDeck;
@@ -93,4 +112,7 @@ public class Player : NetworkBehaviour
     private InputAction mouseLeftClick;
     private InputAction mouseRightClick;
     private InputAction keyboardWASD;
+
+    // Camera control
+    private bool isRightMouseHold = false;
 }

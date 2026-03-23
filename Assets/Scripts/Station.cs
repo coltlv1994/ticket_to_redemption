@@ -18,6 +18,11 @@ public class Station : MonoBehaviour
     {
         
     }
+    
+    void OnClick()
+    {
+        print("clicked station " + m_name);
+    }
 
     [SerializeField]
     public StationName m_name;
