@@ -1,13 +1,24 @@
-using UnityEngine;
-using Unity.Netcode;
 using MapData;
 using System.Collections.Generic;
+using Unity.Netcode;
+using UnityEngine;
 using UnityEngine.InputSystem;
 
 // Route is for connecting neighbors
 // first two is start and end
 // last three is total cost, tunnel and boat
 using Route = System.Tuple<MapData.StationName, MapData.StationName, int, int, int>;
+using Vector3 = UnityEngine.Vector3;
+using Vector2 = UnityEngine.Vector2;
+
+enum CamDirection
+{
+    Forward,
+    Backward,
+    Left,
+    Right,
+    None
+}
 
 public class Player : NetworkBehaviour
 {
@@ -24,6 +35,7 @@ public class Player : NetworkBehaviour
         if (keyboardWASD != null)
         {
             keyboardWASD.performed += OnKeyboardWASDAction;
+            keyboardWASD.canceled += OnWASDReleased;
         }
 
         mouseRightClick = InputSystem.actions.FindAction("RightHold");
@@ -32,11 +44,24 @@ public class Player : NetworkBehaviour
             mouseRightClick.performed += OnRightMousePressed;
             mouseRightClick.canceled += OnRightMouseReleased;
         }
+
+        mouseMove = InputSystem.actions.FindAction("Look");
+        if (mouseMove != null)
+        {
+            mouseMove.performed += OnMouseMove;
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
+        // Camera movement
+        Camera maimCam = Camera.main;
+
+        Vector3 cameraFront = maimCam.transform.forward;
+        Vector3 cameraRight = maimCam.transform.right;
+
+        maimCam.transform.position += (cameraFront * kbInput.y + cameraRight * kbInput.x) * Time.deltaTime * 10.0f;
     }
 
     public bool BuildRoute(Route p_route)
@@ -88,8 +113,12 @@ public class Player : NetworkBehaviour
 
     private void OnKeyboardWASDAction(InputAction.CallbackContext obj)
     {
-        Vector2 vector2 = obj.ReadValue<Vector2>();
-        Debug.Log("Keyboard input: " + vector2.ToString());
+        kbInput = obj.ReadValue<Vector2>();
+    }
+
+    private void OnWASDReleased(InputAction.CallbackContext obj)
+    {
+        kbInput = Vector2.zero;
     }
 
     private void OnRightMousePressed(InputAction.CallbackContext obj)
@@ -104,6 +133,16 @@ public class Player : NetworkBehaviour
         Debug.Log("Right mouse released");
     }
 
+    private void OnMouseMove(InputAction.CallbackContext obj)
+    {
+        if (isRightMouseHold)
+        {
+            // x+: right, x-: left, y+: up, y-: down
+            Vector2 vector2 = obj.ReadValue<Vector2>();
+            Camera.main.transform.Rotate(new Vector3(-vector2.y, vector2.x, 0) * Time.deltaTime * 100.0f);
+        }
+    }
+
     private HashSet<StationName> m_connectedStations;
     private int m_remainingCarts = 45;
     private HandDeck m_handDeck;
@@ -112,7 +151,9 @@ public class Player : NetworkBehaviour
     private InputAction mouseLeftClick;
     private InputAction mouseRightClick;
     private InputAction keyboardWASD;
+    private InputAction mouseMove;
 
     // Camera control
     private bool isRightMouseHold = false;
+    private Vector2 kbInput = Vector2.zero;
 }
