@@ -1,6 +1,8 @@
 using MapData;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEngine.Rendering.CoreUtils;
+
 // Route is for connecting neighbors
 // first two is start and end
 // last three is total cost, tunnel and boat
@@ -37,6 +39,12 @@ public class GameDataCollection : MonoBehaviour
 
     public void GenerateMapRoute()
     {
+        // generate nodes
+        for (int i = 0; i < (int)StationName.MAX_NUM_OF_STATIONS; i++)
+        {
+            mapData.Add((StationName)i, new Node((StationName)i));
+        }
+
         routes.Add(new Route(StationName.COLTER, StationName.ISABELLA, 2, 0, 0));
         routes.Add(new Route(StationName.COLTER, StationName.DAKOTA, 4, 0, 0));
         routes.Add(new Route(StationName.ISABELLA, StationName.DAKOTA, 3, 0, 0));
@@ -93,10 +101,10 @@ public class GameDataCollection : MonoBehaviour
         routes.Add(new Route(StationName.RHODES, StationName.CALIGA, 2, 0, 0));
         routes.Add(new Route(StationName.ST_DENIS, StationName.CALIGA, 2, 0, 0));
         routes.Add(new Route(StationName.ST_DENIS, StationName.THIEVES, 8, 0, 0));
-        routes.Add(new Route(StationName.COUJAR, StationName.TUMNBLEWEED, 2, 0, 0));
+        routes.Add(new Route(StationName.COUJAR, StationName.TUMBLEWEED, 2, 0, 0));
         routes.Add(new Route(StationName.COUJAR, StationName.BENEDICT, 2, 0, 0));
-        routes.Add(new Route(StationName.TUMNBLEWEED, StationName.BENEDICT, 3, 0, 0));
-        routes.Add(new Route(StationName.TUMNBLEWEED, StationName.MERCER, 4, 0, 0));
+        routes.Add(new Route(StationName.TUMBLEWEED, StationName.BENEDICT, 3, 0, 0));
+        routes.Add(new Route(StationName.TUMBLEWEED, StationName.MERCER, 4, 0, 0));
         routes.Add(new Route(StationName.MERCER, StationName.DON_JILA, 2, 0, 0));
         routes.Add(new Route(StationName.MERCER, StationName.ARMADILLO, 3, 0, 0));
         routes.Add(new Route(StationName.DON_JILA, StationName.ARMADILLO, 2, 0, 0));
@@ -108,16 +116,6 @@ public class GameDataCollection : MonoBehaviour
         // read into map data
         foreach (Route route in routes)
         {
-            if (!mapData.ContainsKey(route.Item1))
-            {
-                mapData.Add(route.Item1, new Node(route.Item1));
-            }
-
-            if (!mapData.ContainsKey(route.Item2))
-            {
-                mapData.Add(route.Item2, new Node(route.Item2));
-            }
-
             mapData[route.Item1].AddNeighbor(route.Item2, route.Item3, route.Item4, route.Item5);
             mapData[route.Item2].AddNeighbor(route.Item1, route.Item3, route.Item4, route.Item5);
         }

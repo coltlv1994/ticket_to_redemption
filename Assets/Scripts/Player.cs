@@ -139,7 +139,8 @@ public class Player : NetworkBehaviour
         {
             // x+: right, x-: left, y+: up, y-: down
             Vector2 vector2 = obj.ReadValue<Vector2>();
-            Camera.main.transform.Rotate(new Vector3(-vector2.y, vector2.x, 0) * Time.deltaTime * 100.0f);
+            Camera.main.transform.SetPositionAndRotation(Camera.main.transform.position, Quaternion.Euler(
+                Camera.main.transform.rotation.eulerAngles + new Vector3(-vector2.y, vector2.x, 0) * Time.deltaTime * 100.0f));
         }
     }
 

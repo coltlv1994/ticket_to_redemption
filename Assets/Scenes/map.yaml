@@ -1,0 +1,576 @@
+station:
+  - name: COLTER
+    displayName: Colter
+    location: {x = 0.0, y = 0.0}
+  - name: ISABELLA
+    displayName: Lake Isabella
+    location: {x = 0.0, y = 0.0}
+  - name: WAPITI
+    displayName: Wapiti Indian Reservation
+    location: {x = 0.0, y = 0.0}
+  - name: BRANDWINE
+    displayName: Brandywine Drop
+    location: {x = 0.0, y = 0.0}
+  - name: BUCCHUS
+    displayName: Bacchus Station
+    location: {x = 0.0, y = 0.0}
+  - name: OCREAGB
+    displayName: O'Creagh's Run
+    location: {x = 0.0, y = 0.0}
+  - name: ANNESBURG
+    displayName: Annesburg
+    location: {x = 0.0, y = 0.0}
+  - name: PRONGHORN
+    displayName: Pronghorn Ranch
+    location: {x = 0.0, y = 0.0}
+  - name: WALLACE
+    displayName: Wallace Station
+    location: {x = 0.0, y = 0.0}
+  - name: VALENTINE
+    displayName: Valentine
+    location: {x = 0.0, y = 0.0}
+  - name: OIL_FIELD
+    displayName: Cornelius Oil Fields
+    location: {x = 0.0, y = 0.0}
+  - name: EMERALD
+    displayName: Emerald Ranch
+    location: {x = 0.0, y = 0.0}
+  - name: BUTCHER
+    displayName: Butcher Creek
+    location: {x = 0.0, y = 0.0}
+  - name: VAN_HORN
+    displayName: Van Horn Trading Post
+    location: {x = 0.0, y = 0.0}
+  - name: OWANJILA
+    displayName: Owanjila Dam
+    location: {x = 0.0, y = 0.0}
+  - name: STRAWBERRY
+    displayName: Strawberry
+    location: {x = 0.0, y = 0.0}
+  - name: RIGGS
+    displayName: Riggs Station
+    location: {x = 0.0, y = 0.0}
+  - name: FLATNECK
+    displayName: Flantneck Station
+    location: {x = 0.0, y = 0.0}
+  - name: HEARTLAND
+    displayName: Heartland Plain
+    location: {x = 0.0, y = 0.0}
+  - name: LAGRAS
+    displayName: Lagras
+    location: {x = 0.0, y = 0.0}
+  - name: PRISON
+    displayName: Sisika Penitentiary
+    location: {x = 0.0, y = 0.0}
+  - name: BEECHER
+    displayName: Beecher's Hope
+    location: {x = 0.0, y = 0.0}
+  - name: BLACKWATER
+    displayName: Blackwater
+    location: {x = 0.0, y = 0.0}
+  - name: RHODES
+    displayName: Rhodes
+    location: {x = 0.0, y = 0.0}
+  - name: ST_DENIS
+    displayName: Saint Denis
+    location: {x = 0.0, y = 0.0}
+  - name: COUJAR
+    displayName: Coujar's Lair
+    location: {x = 0.0, y = 0.0}
+  - name: TUMBLEWEED
+    displayName: Tumbleweed
+    location: {x = 0.0, y = 0.0}
+  - name: BENEDICT
+    displayName: Benedict Point
+    location: {x = 0.0, y = 0.0}
+  - name: MERCER
+    displayName: Fort Mercer
+    location: {x = 0.0, y = 0.0}
+  - name: DON_JILA
+    displayName: Don Jila River
+    location: {x = 0.0, y = 0.0}
+  - name: ARMADILLO
+    displayName: Armadillo
+    location: {x = 0.0, y = 0.0}
+  - name: MACFARLANE
+    displayName: MacFarlane Ranch
+    location: {x = 0.0, y = 0.0}
+  - name: THIEVES
+    displayName: Thieves' Landing
+    location: {x = 0.0, y = 0.0}
+  - name: DAKOTA
+    displayName: Dakota River
+    location: {x = 0.0, y = 0.0}
+  - name: CALIGA
+    displayName: Caliga hall
+    location: {x = 0.0, y = 0.0}
+
+connection:
+    - start: COLTER
+      end: ISABELLA
+      total_cost: 2
+      tunnel: 0
+      boat: 0
+      color: Red
+     
+    - start: COLTER
+      end: DAKOTA
+      total_cost: 4
+      tunnel: 0
+      boat: 0
+      color: Red
+     
+    - start: ISABELLA
+      end: DAKOTA
+      total_cost: 3
+      tunnel: 0
+      boat: 0
+      color: Red
+     
+    - start: ISABELLA
+      end: WALLACE
+      total_cost: 4
+      tunnel: 0
+      boat: 0
+      color: Red
+     
+    - start: ISABELLA
+      end: PRONGHORN
+      total_cost: 4
+      tunnel: 0
+      boat: 0
+      color: Red
+     
+    - start: WAPITI
+      end: DAKOTA
+      total_cost: 5
+      tunnel: 0
+      boat: 0
+      color: Red
+     
+    - start: WAPITI
+      end: BUCCHUS
+      total_cost: 1
+      tunnel: 0
+      boat: 0
+      color: Red
+     
+    - start: WAPITI
+      end: BRANDWINE
+      total_cost: 6
+      tunnel: 0
+      boat: 0
+      color: Red
+     
+    - start: BUCCHUS
+      end: DAKOTA
+      total_cost: 4
+      tunnel: 0
+      boat: 0
+      color: Red
+     
+    - start: BUCCHUS
+      end: OIL_FIELD
+      total_cost: 3
+      tunnel: 0
+      boat: 0
+      color: Red
+     
+    - start: BUCCHUS
+      end: OCREAGB
+      total_cost: 3
+      tunnel: 0
+      boat: 0
+      color: Red
+     
+    - start: BRANDWINE
+      end: OCREAGB
+      total_cost: 3
+      tunnel: 0
+      boat: 0
+      color: Red
+     
+    - start: BRANDWINE
+      end: ANNESBURG
+      total_cost: 3
+      tunnel: 0
+      boat: 0
+      color: Red
+     
+    - start: OCREAGB
+      end: OIL_FIELD
+      total_cost: 5
+      tunnel: 0
+      boat: 0
+      color: Red
+     
+    - start: OCREAGB
+      end: ANNESBURG
+      total_cost: 4
+      tunnel: 0
+      boat: 0
+      color: Red
+     
+    - start: OCREAGB
+      end: BUTCHER
+      total_cost: 3
+      tunnel: 0
+      boat: 0
+      color: Red
+     
+    - start: ANNESBURG
+      end: VAN_HORN
+      total_cost: 2
+      tunnel: 0
+      boat: 0
+      color: Red
+     
+    - start: PRONGHORN
+      end: WALLACE
+      total_cost: 3
+      tunnel: 0
+      boat: 0
+      color: Red
+     
+    - start: PRONGHORN
+      end: OWANJILA
+      total_cost: 3
+      tunnel: 0
+      boat: 0
+      color: Red
+     
+    - start: WALLACE
+      end: DAKOTA
+      total_cost: 3
+      tunnel: 0
+      boat: 0
+      color: Red
+     
+    - start: WALLACE
+      end: VALENTINE
+      total_cost: 3
+      tunnel: 0
+      boat: 0
+      color: Red
+     
+    - start: WALLACE
+      end: RIGGS
+      total_cost: 3
+      tunnel: 0
+      boat: 0
+      color: Red
+     
+    - start: VALENTINE
+      end: DAKOTA
+      total_cost: 2
+      tunnel: 0
+      boat: 0
+      color: Red
+     
+    - start: VALENTINE
+      end: OIL_FIELD
+      total_cost: 2
+      tunnel: 0
+      boat: 0
+      color: Red
+     
+    - start: VALENTINE
+      end: HEARTLAND
+      total_cost: 3
+      tunnel: 0
+      boat: 0
+      color: Red
+     
+    - start: VALENTINE
+      end: FLATNECK
+      total_cost: 3
+      tunnel: 0
+      boat: 0
+      color: Red
+     
+    - start: OIL_FIELD
+      end: EMERALD
+      total_cost: 2
+      tunnel: 0
+      boat: 0
+      color: Red
+     
+    - start: OIL_FIELD
+      end: HEARTLAND
+      total_cost: 3
+      tunnel: 0
+      boat: 0
+      color: Red
+     
+    - start: EMERALD
+      end: HEARTLAND
+      total_cost: 4
+      tunnel: 0
+      boat: 0
+      color: Red
+     
+    - start: EMERALD
+      end: CALIGA
+      total_cost: 3
+      tunnel: 0
+      boat: 0
+      color: Red
+     
+    - start: EMERALD
+      end: LAGRAS
+      total_cost: 4
+      tunnel: 0
+      boat: 0
+      color: Red
+     
+    - start: EMERALD
+      end: BUTCHER
+      total_cost: 1
+      tunnel: 0
+      boat: 0
+      color: Red
+     
+    - start: BUTCHER
+      end: VAN_HORN
+      total_cost: 1
+      tunnel: 0
+      boat: 0
+      color: Red
+     
+    - start: VAN_HORN
+      end: PRISON
+      total_cost: 4
+      tunnel: 0
+      boat: 0
+      color: Red
+     
+    - start: VAN_HORN
+      end: ST_DENIS
+      total_cost: 5
+      tunnel: 0
+      boat: 0
+      color: Red
+     
+    - start: OWANJILA
+      end: STRAWBERRY
+      total_cost: 4
+      tunnel: 0
+      boat: 0
+      color: Red
+     
+    - start: OWANJILA
+      end: BEECHER
+      total_cost: 4
+      tunnel: 0
+      boat: 0
+      color: Red
+     
+    - start: OWANJILA
+      end: MACFARLANE
+      total_cost: 2
+      tunnel: 0
+      boat: 0
+      color: Red
+     
+    - start: STRAWBERRY
+      end: RIGGS
+      total_cost: 3
+      tunnel: 0
+      boat: 0
+      color: Red
+     
+    - start: STRAWBERRY
+      end: BEECHER
+      total_cost: 2
+      tunnel: 0
+      boat: 0
+      color: Red
+     
+    - start: RIGGS
+      end: FLATNECK
+      total_cost: 2
+      tunnel: 0
+      boat: 0
+      color: Red
+     
+    - start: RIGGS
+      end: BLACKWATER
+      total_cost: 2
+      tunnel: 0
+      boat: 0
+      color: Red
+     
+    - start: FLATNECK
+      end: HEARTLAND
+      total_cost: 3
+      tunnel: 0
+      boat: 0
+      color: Red
+     
+    - start: FLATNECK
+      end: RHODES
+      total_cost: 5
+      tunnel: 0
+      boat: 0
+      color: Red
+     
+    - start: HEARTLAND
+      end: RHODES
+      total_cost: 4
+      tunnel: 0
+      boat: 0
+      color: Red
+     
+    - start: LAGRAS
+      end: CALIGA
+      total_cost: 2
+      tunnel: 0
+      boat: 0
+      color: Red
+     
+    - start: LAGRAS
+      end: ST_DENIS
+      total_cost: 3
+      tunnel: 0
+      boat: 0
+      color: Red
+     
+    - start: PRISON
+      end: ST_DENIS
+      total_cost: 3
+      tunnel: 0
+      boat: 0
+      color: Red
+     
+    - start: BEECHER
+      end: BLACKWATER
+      total_cost: 1
+      tunnel: 0
+      boat: 0
+      color: Red
+     
+    - start: BEECHER
+      end: MACFARLANE
+      total_cost: 3
+      tunnel: 0
+      boat: 0
+      color: Red
+     
+    - start: BLACKWATER
+      end: RHODES
+      total_cost: 6
+      tunnel: 0
+      boat: 0
+      color: Red
+     
+    - start: BLACKWATER
+      end: THIEVES
+      total_cost: 3
+      tunnel: 0
+      boat: 0
+      color: Red
+     
+    - start: RHODES
+      end: ST_DENIS
+      total_cost: 4
+      tunnel: 0
+      boat: 0
+      color: Red
+     
+    - start: RHODES
+      end: CALIGA
+      total_cost: 2
+      tunnel: 0
+      boat: 0
+      color: Red
+     
+    - start: ST_DENIS
+      end: CALIGA
+      total_cost: 2
+      tunnel: 0
+      boat: 0
+      color: Red
+     
+    - start: ST_DENIS
+      end: THIEVES
+      total_cost: 8
+      tunnel: 0
+      boat: 0
+      color: Red
+     
+    - start: COUJAR
+      end: TUMBLEWEED
+      total_cost: 2
+      tunnel: 0
+      boat: 0
+      color: Red
+     
+    - start: COUJAR
+      end: BENEDICT
+      total_cost: 2
+      tunnel: 0
+      boat: 0
+      color: Red
+     
+    - start: TUMBLEWEED
+      end: BENEDICT
+      total_cost: 3
+      tunnel: 0
+      boat: 0
+      color: Red
+     
+    - start: TUMBLEWEED
+      end: MERCER
+      total_cost: 4
+      tunnel: 0
+      boat: 0
+      color: Red
+
+    - start: MERCER
+      end: DON_JILA
+      total_cost: 2
+      tunnel: 0
+      boat: 0
+      color: Red
+      
+    - start: MERCER
+      end: ARMADILLO
+      total_cost: 3
+      tunnel: 0
+      boat: 0
+      color: Red
+
+    - start: DON_JILA
+      end: ARMADILLO
+      total_cost: 2
+      tunnel: 0
+      boat: 0
+      color: Red
+      
+    - start: DON_JILA
+      end: MACFARLANE
+      total_cost: 3
+      tunnel: 0
+      boat: 0
+      color: Red
+      
+    - start: DON_JILA
+      end: THIEVES
+      total_cost: 4
+      tunnel: 0
+      boat: 0
+      color: Red
+      
+    - start: ARMADILLO
+      end: MACFARLANE
+      total_cost: 3
+      tunnel: 0
+      boat: 0
+      color: Red
+
+    - start: MACFARLANE
+      end: THIEVES
+      total_cost: 2
+      tunnel: 0
+      boat: 0
+      color: Red

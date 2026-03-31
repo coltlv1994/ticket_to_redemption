@@ -44,7 +44,7 @@ namespace MapData
         RHODES,
         ST_DENIS,
         COUJAR,
-        TUMNBLEWEED,
+        TUMBLEWEED,
         BENEDICT,
         MERCER,
         DON_JILA,
@@ -52,14 +52,15 @@ namespace MapData
         MACFARLANE,
         THIEVES,
         DAKOTA,
-        CALIGA
+        CALIGA,
+        MAX_NUM_OF_STATIONS
     }
 
     public class Node
     {
-        public Node(StationName station)
+        public Node(StationName stationName)
         {
-            this.station = station;
+            this.stationName = stationName;
             neighbors = new Dictionary<StationName, int>();
             builtRoads = new Dictionary<StationName, int>();
         }
@@ -99,7 +100,7 @@ namespace MapData
             builtRoads.Clear();
         }
 
-        private StationName station;
+        private StationName stationName;
         private Dictionary<StationName, int> neighbors;
         private Dictionary<StationName, int> builtRoads; // any connection that has been built; int is for player ID
     }

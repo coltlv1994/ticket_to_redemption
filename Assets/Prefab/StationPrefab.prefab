@@ -195,7 +195,7 @@ GameObject:
   - component: {fileID: 8099917224319655469}
   - component: {fileID: 900990725486864683}
   m_Layer: 0
-  m_Name: Station
+  m_Name: StationPrefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
