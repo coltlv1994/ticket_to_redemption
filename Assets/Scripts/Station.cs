@@ -1,5 +1,4 @@
 using UnityEngine;
-using MapData;
 using TMPro;
 
 public class Station : MonoBehaviour
@@ -9,6 +8,7 @@ public class Station : MonoBehaviour
     {
         m_data = GameDataCollection.GetInstance();
         m_node = m_data.GetNodeByName(m_name);
+        m_node.UpdatePosition(transform.position);
         m_textMesh.text = m_name.ToString();
         enabled = false; // station don't update
     }

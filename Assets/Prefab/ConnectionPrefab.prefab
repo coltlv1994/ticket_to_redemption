@@ -125,3 +125,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3ba28fa4b3c01e74e94098720a6c3e75, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Connectiion
+  m_end1: 0
+  m_end2: 0
+  m_totalCost: 0
+  m_tunnelCost: 0
+  m_boatCost: 0
+  m_roadColor: 0
+  m_appearance: {fileID: 1247428884409693423}

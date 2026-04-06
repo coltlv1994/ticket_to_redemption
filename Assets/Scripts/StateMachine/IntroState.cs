@@ -19,4 +19,11 @@ public class IntroState : StateBase
         // Do nothing
         return;
     }
+
+    public PlayerState GetState()
+    {
+        return m_state;
+    }
+
+    private PlayerState m_state = PlayerState.Intro;
 }

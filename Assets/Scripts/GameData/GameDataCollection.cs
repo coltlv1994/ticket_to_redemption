@@ -1,4 +1,3 @@
-using MapData;
 using System.Collections.Generic;
 using UnityEngine;
 using static UnityEngine.Rendering.CoreUtils;
@@ -6,12 +5,12 @@ using static UnityEngine.Rendering.CoreUtils;
 // Route is for connecting neighbors
 // first two is start and end
 // last three is total cost, tunnel and boat
-using Route = System.Tuple<MapData.StationName, MapData.StationName, int, int, int>;
+using Route = System.Tuple<StationName, StationName, int, int, int>;
 
 public class GameDataCollection : MonoBehaviour
 {
     // make a singleton for game data collection
-
+    #region singletonRealization
     public static GameDataCollection GetInstance()
     {
         return m_instance;
@@ -30,6 +29,7 @@ public class GameDataCollection : MonoBehaviour
             mapData = new Dictionary<StationName, Node>();
 
             GenerateMapRoute();
+            GenerateCardDecks();
         }
         else
         {
@@ -37,7 +37,82 @@ public class GameDataCollection : MonoBehaviour
         }
     }
 
-    public void GenerateMapRoute()
+    #endregion
+
+    #region PublicMethods
+    public Node GetNodeByName(StationName stationName)
+    {
+        if (mapData.ContainsKey(stationName))
+        {
+            return mapData[stationName];
+        }
+        else
+        {
+            Debug.LogError("Station name not found in map data: " + stationName);
+            return null;
+        }
+    }
+
+    public CardColor GetRandomCard()
+    {
+        // this will send cards to player's handdeck
+        List<CardColor> availableColors = new List<CardColor>();
+        foreach (var kvp in cardDeck)
+        {
+            if (kvp.Value > 0)
+            {
+                availableColors.Add(kvp.Key);
+            }
+        }
+
+        if (availableColors.Count == 0)
+        {
+
+            // re-shuffle the deserted cards back into the card deck
+            cardDeck = new Dictionary<CardColor, int>(desertedCardDeck);
+
+            availableColors.Clear();
+            foreach (var kvp in cardDeck)
+            {
+                if (kvp.Value > 0)
+                {
+                    availableColors.Add(kvp.Key);
+                }
+            }
+
+            if (availableColors.Count == 0)
+            {
+                Debug.LogError("No cards available in the deck or deserted deck!");
+                return CardColor.PINK; // Return a default value to avoid errors
+            }
+        }
+
+        int randomIndex = Random.Range(0, availableColors.Count);
+        CardColor randomCard = availableColors[randomIndex];
+        cardDeck[randomCard]--;
+        return randomCard;
+    }
+
+    public void DrawCardsToDesk(int numCards)
+    {
+        // this will send cards to the desk
+        for (int i = 0; i < numCards; i++)
+        {
+            CardColor drawnCard = GetRandomCard();
+            availableCardsOnDesk.Add(drawnCard);
+        }
+    }
+
+    public List<CardColor> GetAvailableCardsOnDesk()
+    {
+        // this will return the cards that can be immediately drawn by player
+        return availableCardsOnDesk;
+    }
+
+    #endregion
+
+    #region PrivateMethods
+    private void GenerateMapRoute()
     {
         // generate nodes
         for (int i = 0; i < (int)StationName.MAX_NUM_OF_STATIONS; i++)
@@ -121,6 +196,28 @@ public class GameDataCollection : MonoBehaviour
         }
     }
 
+    private void GenerateCardDecks()
+    {
+        desertedCardDeck = new Dictionary<CardColor, int>();
+        foreach (CardColor color in System.Enum.GetValues(typeof(CardColor)))
+        {
+            desertedCardDeck.Add(color, 0);
+        }
+
+        cardDeck = new Dictionary<CardColor, int>();
+        foreach (CardColor color in System.Enum.GetValues(typeof(CardColor)))
+        {
+            cardDeck.Add(color, 12);
+        }
+        cardDeck[CardColor.RAINBOW] = 14;
+    }
+
+    private void GenerateTickets()
+    {
+        // all destination tickets
+    }
+    #endregion
+
     public void ClearMapRoute()
     {
         foreach (Node node in mapData.Values)
@@ -129,21 +226,11 @@ public class GameDataCollection : MonoBehaviour
         }
     }
 
-    public Node GetNodeByName(StationName stationName)
-    {
-        if (mapData.ContainsKey(stationName))
-        {
-            return mapData[stationName];
-        }
-        else
-        {
-            Debug.LogError("Station name not found in map data: " + stationName);
-            return null;
-        }
-    }
-
     private List<Route> routes;
     private Dictionary<StationName, Node> mapData;
+    private Dictionary<CardColor, int> cardDeck; // this is the main card deck, cards will be drawn from here to player's hand and the desk
+    private Dictionary<CardColor, int> desertedCardDeck; // deserted deck
+    private List<CardColor> availableCardsOnDesk = new List<CardColor>(); // card that can be immediately drawn by player
 
     private static GameDataCollection m_instance;
 }

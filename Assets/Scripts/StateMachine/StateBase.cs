@@ -7,4 +7,6 @@ public interface StateBase
     public void OnUpdate();
 
     public void OnExit();
+
+    public PlayerState GetState();
 }

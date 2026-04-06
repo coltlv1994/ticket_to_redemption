@@ -1,4 +1,13 @@
 using UnityEngine;
+using UnityEngine.InputSystem.XR.Haptics;
+
+public enum PlayerState
+{
+    Intro,
+    Play,
+    Pause,
+    GameOver
+}
 
 public class PlayerController : MonoBehaviour
 {
@@ -12,6 +21,7 @@ public class PlayerController : MonoBehaviour
         if (m_instance == null)
         {
             m_instance = this;
+            DontDestroyOnLoad(m_instance);
         }
         else
         {
@@ -36,6 +46,11 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         m_stateMachine.Update();
+    }
+
+    public PlayerState GetCurrentState()
+    {         
+        return m_stateMachine.GetCurrentState();
     }
 
     private StateMachine m_stateMachine = new StateMachine();

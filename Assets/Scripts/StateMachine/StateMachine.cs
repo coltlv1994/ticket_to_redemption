@@ -31,6 +31,11 @@ public class StateMachine
         m_currentState?.OnUpdate();
     }
 
+    public PlayerState GetCurrentState()
+    {
+        return m_currentState?.GetState() ?? PlayerState.Intro;
+    }
+
     private StateBase m_currentState;
     private StateBase m_nextState;
     private bool m_isChangingState = false;

@@ -1,4 +1,4 @@
-using MapData;
+
 using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
@@ -7,7 +7,7 @@ using UnityEngine.InputSystem;
 // Route is for connecting neighbors
 // first two is start and end
 // last three is total cost, tunnel and boat
-using Route = System.Tuple<MapData.StationName, MapData.StationName, int, int, int>;
+using Route = System.Tuple<StationName, StationName, int, int, int>;
 using Vector3 = UnityEngine.Vector3;
 using Vector2 = UnityEngine.Vector2;
 
@@ -95,6 +95,43 @@ public class Player : NetworkBehaviour
         m_handDeck.ResetHandDeck();
     }
 
+    public bool QueueEvent()
+    {
+        // false means no event at hand
+        if (m_nextEvent == null)
+        {
+            return false;
+        }
+        else
+        {
+            return true;
+        }
+    }
+
+    public bool AddEvent(EventBase newEvent)
+    {
+        if (m_nextEvent == null)
+        {
+            m_nextEvent = newEvent;
+            return true;
+        }
+        else
+        {
+            Debug.LogError("Already have an event at hand, cannot add new event");
+            // add failed
+            return false;
+        }
+    }
+
+    public void HandleEvent()
+    {
+        if (m_nextEvent != null)
+        {
+            // do some stuff like switch-case
+            m_nextEvent = null;
+        }
+    }
+
     private void OnMouseClickAction(InputAction.CallbackContext obj)
     {
         // do stuff
@@ -108,6 +145,15 @@ public class Player : NetworkBehaviour
             {
                 Debug.Log("Clicked on station: " + hitStation.m_name.ToString());
             }
+
+            Connection hitConnection = hit.collider.gameObject.GetComponent<Connection>();
+            if (hitConnection != null)
+            {
+                // pop out UI to ask if player want to build route here
+                Debug.Log("Clicked on connection: " + hitConnection.m_end1.ToString() + " - " + hitConnection.m_end2.ToString());
+            }
+
+
         }
     }
 
@@ -157,4 +203,7 @@ public class Player : NetworkBehaviour
     // Camera control
     private bool isRightMouseHold = false;
     private Vector2 kbInput = Vector2.zero;
+
+    // Event
+    private EventBase m_nextEvent = null;
 }
