@@ -16,6 +16,9 @@ public class MainSceneUIManager : MonoBehaviour
         {
             Debug.LogError("GameDataCollection not found in the scene.");
         }
+
+        PlayerController playerController = PlayerController.GetInstance();
+        playerController.UpdatePlayerRef(Player.GetComponent<Player>());
     }
 
     // Update is called once per frame

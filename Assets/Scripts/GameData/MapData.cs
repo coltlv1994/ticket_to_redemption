@@ -78,6 +78,12 @@ public enum EventType
     END_TURN
 }
 
+public enum TicketType
+{
+    NORMAL,
+    LONG
+}
+
 public class Node
 {
     public Node(StationName stationName)

@@ -10,23 +10,23 @@ public class StateMachine
 
     public void ChangeState(StateBase newState)
     {
-        m_isChangingState = true;
+        //m_isChangingState = true;
 
         if (m_currentState != null)
         {
             m_currentState.OnExit();
         }
 
-        m_nextState = newState;
-        m_nextState.OnEnter();
+        m_currentState = newState;
+        m_currentState.OnEnter();
     }
 
     public void Update()
     {
-        if (m_isChangingState)
-        {
-            return;
-        }
+        //if (m_isChangingState)
+        //{
+        //    return;
+        //}
         
         m_currentState?.OnUpdate();
     }
@@ -38,5 +38,5 @@ public class StateMachine
 
     private StateBase m_currentState;
     private StateBase m_nextState;
-    private bool m_isChangingState = false;
+    //private bool m_isChangingState = false;
 }

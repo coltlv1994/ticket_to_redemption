@@ -53,6 +53,17 @@ public class PlayerController : MonoBehaviour
         return m_stateMachine.GetCurrentState();
     }
 
+    public void UpdatePlayerRef(Player p_player)
+    {
+        m_player = p_player;
+    }
+
+    public Player GetPlayerRef()
+    {
+        return m_player;
+    }
+
     private StateMachine m_stateMachine = new StateMachine();
     private static PlayerController m_instance;
+    private Player m_player = null;
 }

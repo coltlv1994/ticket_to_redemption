@@ -23,7 +23,7 @@ enum CamDirection
 public class Player : NetworkBehaviour
 {
     // Start is called once before the first execution of Update after the NetworkBehaviour is created
-    void Start()
+    void Awake()
     {
         mouseLeftClick = InputSystem.actions.FindAction("Click");
         if (mouseLeftClick != null)
@@ -50,18 +50,6 @@ public class Player : NetworkBehaviour
         {
             mouseMove.performed += OnMouseMove;
         }
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        // Camera movement
-        Camera maimCam = Camera.main;
-
-        Vector3 cameraFront = maimCam.transform.forward;
-        Vector3 cameraRight = maimCam.transform.right;
-
-        maimCam.transform.position += (cameraFront * kbInput.y + cameraRight * kbInput.x) * Time.deltaTime * 10.0f;
     }
 
     public bool BuildRoute(Route p_route)
@@ -95,10 +83,10 @@ public class Player : NetworkBehaviour
         m_handDeck.ResetHandDeck();
     }
 
-    public bool QueueEvent()
+    public bool CheckEventQueue()
     {
         // false means no event at hand
-        if (m_nextEvent == null)
+        if (m_eventQueue.Count == 0)
         {
             return false;
         }
@@ -108,28 +96,62 @@ public class Player : NetworkBehaviour
         }
     }
 
-    public bool AddEvent(EventBase newEvent)
+    public void AddEvent(EventBase newEvent)
     {
-        if (m_nextEvent == null)
-        {
-            m_nextEvent = newEvent;
-            return true;
-        }
-        else
-        {
-            Debug.LogError("Already have an event at hand, cannot add new event");
-            // add failed
-            return false;
-        }
+        m_eventQueue.Enqueue(newEvent);
     }
 
     public void HandleEvent()
     {
-        if (m_nextEvent != null)
+        if (m_eventQueue.Count != 0)
         {
             // do some stuff like switch-case
-            m_nextEvent = null;
+            // need semaphore protection
+            EventBase nextEvent = m_eventQueue.Dequeue();
+            
+            EventType eventType = nextEvent.GetEventType();
+            switch (eventType)
+            {
+                case EventType.DRAW_CARD:
+                    // do something
+                    // logic needs update: player can pick card from desk or randomly from deck
+                    DrawCardEvent drawCardEvent = (DrawCardEvent)nextEvent;
+                    int drawCardNum = drawCardEvent.GetNumberOfCardsToDraw();
+                    GameDataCollection gdc = GameDataCollection.GetInstance();
+                    m_handDeck.AddCard(gdc.GetRandomCard());
+                    break;
+                case EventType.BUILD_ROAD:
+                    // do something
+                    break;
+                case EventType.CLAIM_ROUTE:
+                    // do something
+                    break;
+                case EventType.DISCARD_CARD:
+                    // do something
+                    break;
+                case EventType.DRAW_TICKET:
+                    // do something
+                    break;
+                case EventType.END_TURN:
+                    // do something
+                    break;
+            }
         }
+    }
+
+    public void OnUpdate()
+    {
+        // event handling
+        HandleEvent();
+
+        // cam update
+        // Camera movement
+        Camera maimCam = Camera.main;
+
+        Vector3 cameraFront = maimCam.transform.forward;
+        Vector3 cameraRight = maimCam.transform.right;
+
+        maimCam.transform.position += (cameraFront * kbInput.y + cameraRight * kbInput.x) * Time.deltaTime * 10.0f;
     }
 
     private void OnMouseClickAction(InputAction.CallbackContext obj)
@@ -205,5 +227,5 @@ public class Player : NetworkBehaviour
     private Vector2 kbInput = Vector2.zero;
 
     // Event
-    private EventBase m_nextEvent = null;
+    private Queue<EventBase> m_eventQueue = new Queue<EventBase>();
 }
