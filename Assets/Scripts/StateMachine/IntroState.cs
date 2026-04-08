@@ -1,8 +1,14 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 
 public class IntroState : StateBase
 {
+    public void OnSceneLoaded(Scene p_scene, LoadSceneMode p_loadMode)
+    {
+
+    }
+
     public void OnEnter()
     {
         // Read file

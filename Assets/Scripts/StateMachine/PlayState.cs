@@ -24,8 +24,6 @@ public class PlayState : StateBase
 
     public void OnUpdate()
     {
-        GameDataCollection.GetInstance().DrawCardsToDesk(5);
-
         switch (m_subState)
         {
             case SubState.GameStart:
@@ -63,7 +61,14 @@ public class PlayState : StateBase
         return m_state;
     }
 
+    public void OnSceneLoaded(Scene p_scene, LoadSceneMode p_loadMode)
+    {
+        m_gdc = GameDataCollection.GetInstance();
+        m_player = GameObject.Find("PlayerPrefab").GetComponent<Player>();
+    }
+
     private PlayerState m_state = PlayerState.Play;
     private SubState m_subState = SubState.GameStart;
     private Player m_player = null;
+    private GameDataCollection m_gdc = null;
 }

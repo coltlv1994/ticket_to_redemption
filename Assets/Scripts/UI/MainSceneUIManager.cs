@@ -4,7 +4,7 @@ using UnityEngine;
 public class MainSceneUIManager : MonoBehaviour
 {
 
-    [SerializeField] private GameObject Player;
+    [SerializeField] private GameObject m_player, m_notificationWindow;
     [SerializeField] private TextMeshProUGUI m_playerNotification;
     private GameDataCollection m_gameDataCollection;
 
@@ -18,14 +18,13 @@ public class MainSceneUIManager : MonoBehaviour
         }
 
         PlayerController playerController = PlayerController.GetInstance();
-        playerController.UpdatePlayerRef(Player.GetComponent<Player>());
+        playerController.UpdatePlayerRef(m_player.GetComponent<Player>());
+
+        m_notificationWindow.SetActive(true);
     }
 
-    // Update is called once per frame
-    void Update()
+    public void CloseButton_NotiWindow()
     {
-        PlayerController playerController = PlayerController.GetInstance();
-
-        m_playerNotification.text = playerController.GetCurrentState().ToString();
+        m_notificationWindow.SetActive(false);
     }
 }

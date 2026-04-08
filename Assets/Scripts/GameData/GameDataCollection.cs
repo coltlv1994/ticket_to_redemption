@@ -57,25 +57,38 @@ public class GameDataCollection : MonoBehaviour
     {
         // this will send cards to player's handdeck
         List<CardColor> availableColors = new List<CardColor>();
+        List<int> colorCardCounts = new List<int>();
+
+        int totalNumOfCards = 0;
+
         foreach (var kvp in cardDeck)
         {
             if (kvp.Value > 0)
             {
+                totalNumOfCards += kvp.Value;
+
+                colorCardCounts.Add(totalNumOfCards);
                 availableColors.Add(kvp.Key);
             }
         }
 
-        if (availableColors.Count == 0)
+        if (totalNumOfCards == 0)
         {
 
             // re-shuffle the deserted cards back into the card deck
             cardDeck = new Dictionary<CardColor, int>(desertedCardDeck);
+            desertedCardDeck = new Dictionary<CardColor, int>(emptyCardDict);
 
             availableColors.Clear();
+            colorCardCounts.Clear();
+
             foreach (var kvp in cardDeck)
             {
                 if (kvp.Value > 0)
                 {
+                    totalNumOfCards += kvp.Value;
+
+                    colorCardCounts.Add(totalNumOfCards);
                     availableColors.Add(kvp.Key);
                 }
             }
@@ -87,8 +100,16 @@ public class GameDataCollection : MonoBehaviour
             }
         }
 
-        int randomIndex = Random.Range(0, availableColors.Count);
-        CardColor randomCard = availableColors[randomIndex];
+        int randomIndex = Random.Range(0, totalNumOfCards);
+        CardColor randomCard = CardColor.PINK; // Default initialization
+        for (int i = 0; i < colorCardCounts.Count; i++)
+        {
+            if (randomIndex < colorCardCounts[i])
+            {
+                randomCard = availableColors[i];
+                break;
+            }
+        }
         cardDeck[randomCard]--;
         return randomCard;
     }
@@ -198,16 +219,17 @@ public class GameDataCollection : MonoBehaviour
 
     private void GenerateCardDecks()
     {
-        desertedCardDeck = new Dictionary<CardColor, int>();
         foreach (CardColor color in System.Enum.GetValues(typeof(CardColor)))
         {
-            desertedCardDeck.Add(color, 0);
+            emptyCardDict.Add(color, 0);
         }
 
-        cardDeck = new Dictionary<CardColor, int>();
+        desertedCardDeck = new Dictionary<CardColor, int>(emptyCardDict);
+        cardDeck = new Dictionary<CardColor, int>(emptyCardDict);
+
         foreach (CardColor color in System.Enum.GetValues(typeof(CardColor)))
         {
-            cardDeck.Add(color, 12);
+            cardDeck[color] = 12;
         }
         cardDeck[CardColor.RAINBOW] = 14;
     }
@@ -231,6 +253,8 @@ public class GameDataCollection : MonoBehaviour
     private Dictionary<CardColor, int> cardDeck; // this is the main card deck, cards will be drawn from here to player's hand and the desk
     private Dictionary<CardColor, int> desertedCardDeck; // deserted deck
     private List<CardColor> availableCardsOnDesk = new List<CardColor>(); // card that can be immediately drawn by player
+
+    private Dictionary<CardColor, int> emptyCardDict = new Dictionary<CardColor, int>();
 
     private static GameDataCollection m_instance;
 }
