@@ -68,11 +68,6 @@ public class Player : NetworkBehaviour
         m_handDeck.AddCard(p_color, p_numOfNewCards);
     }
 
-    public bool CheckHandCard(CardColor p_color, int p_numOfCardsToCheck = 1)
-    {
-        return m_handDeck.CheckCardSufficient(p_color, p_numOfCardsToCheck);
-    }
-
     public bool RemoveHandCard(CardColor p_color, int p_numOfCardsToRemove = 1)
     {
         return m_handDeck.ChechAndUseCard(p_color, p_numOfCardsToRemove);
@@ -171,7 +166,32 @@ public class Player : NetworkBehaviour
             Connection hitConnection = hit.collider.gameObject.GetComponent<Connection>();
             if (hitConnection != null)
             {
+                BuildRoadEvent buildRouteEvent = new BuildRoadEvent(hitConnection);
+                bool canBuildRoute = false;
                 // pop out UI to ask if player want to build route here
+                PlayerState ps = PlayerController.GetInstance().GetPlayerState();
+                Substate ss = PlayerController.GetInstance().GetSubState();
+
+                if (ps == PlayerState.Play && ss == Substate.Turn)
+                {
+                    if (hitConnection.m_isClaimed == false)
+                    {
+                        if (m_handDeck.IsRainbowSufficient(hitConnection.m_boatCost))
+                        {
+                            if (hitConnection.m_roadColor == CardColor.RAINBOW)
+                            {
+                                // find the largest number of same color cards (including RAINBOW) in player's hand
+                                canBuildRoute = m_handDeck.IsAnyColorSufficient(hitConnection.m_totalCost);
+                            }
+                            else
+                            {
+                                canBuildRoute = m_handDeck.IsOneColorSufficient(hitConnection.m_roadColor, hitConnection.m_totalCost);
+                            }
+                        }
+
+                    }
+                }
+
                 Debug.Log("Clicked on connection: " + hitConnection.m_end1.ToString() + " - " + hitConnection.m_end2.ToString());
             }
 

@@ -12,4 +12,6 @@ public interface StateBase
     public void OnExit();
 
     public PlayerState GetState();
+
+    public Substate GetSubstate();
 }

@@ -12,5 +12,10 @@ public class BuildRoadEvent : EventBase
         return m_roadToBuild;
     }
 
+    public BuildRoadEvent(Connection p_roadToBuild)
+    {
+        m_roadToBuild = p_roadToBuild;
+    }
+
     private Connection m_roadToBuild;
 }

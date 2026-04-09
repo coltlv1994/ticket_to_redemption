@@ -3,7 +3,7 @@ using UnityEngine;
 //[ExecuteInEditMode]
 public class Connection : MonoBehaviour
 {
-    public void SetRoadColor(RoadColor color)
+    public void SetRoadColor(CardColor color)
     {
         m_roadColor = color;
     }
@@ -35,5 +35,7 @@ public class Connection : MonoBehaviour
     public int m_boatCost;
 
     [SerializeField]
-    public RoadColor m_roadColor;
+    public CardColor m_roadColor;
+
+    public bool m_isClaimed = false;
 }

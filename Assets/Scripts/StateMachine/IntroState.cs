@@ -12,6 +12,9 @@ public class IntroState : StateBase
     public void OnEnter()
     {
         // Read file
+        PlayerController pc = PlayerController.GetInstance();
+        pc.SetPlayerState(PlayerState.Intro);
+        pc.SetPlayerSubstate(Substate.NOT_IN_PLAY_STATE);
     }
 
     public void OnExit()
@@ -29,6 +32,11 @@ public class IntroState : StateBase
     public PlayerState GetState()
     {
         return m_state;
+    }
+
+    public Substate GetSubstate()
+    {
+        return Substate.NOT_IN_PLAY_STATE;
     }
 
     private PlayerState m_state = PlayerState.Intro;

@@ -1,20 +1,24 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+public enum Substate
+{
+    GameStart,
+    TurnStart,
+    Turn,
+    TurnEnd,
+    WaitingForOthers,
+    NOT_IN_PLAY_STATE,
+}
+
 public class PlayState : StateBase
 {
-    public enum SubState
-    {
-        GameStart,
-        TurnStart,
-        Turn,
-        TurnEnd,
-        WaitingForOthers
-    }
-
     public void OnEnter()
     {
         SceneManager.LoadSceneAsync("MainScene");
+        PlayerController pc = PlayerController.GetInstance();
+        pc.SetPlayerState(PlayerState.Play);
+        pc.SetPlayerSubstate(Substate.GameStart);
     }
 
     public void OnExit()
@@ -26,7 +30,7 @@ public class PlayState : StateBase
     {
         switch (m_subState)
         {
-            case SubState.GameStart:
+            case Substate.GameStart:
                 // preparation work
                 GameDataCollection.GetInstance().DrawCardsToDesk(5);
                 m_player?.AddEvent(new DrawCardEvent(4));
@@ -38,20 +42,22 @@ public class PlayState : StateBase
                 // let AI or other player draw, too
 
                 // Game start, need some logic to decide who goes first
-                m_subState = SubState.TurnStart;
+                m_subState = Substate.TurnStart;
                 break;
-            case SubState.TurnStart:
+            case Substate.TurnStart:
                 // Do nothing
                 break;
-            case SubState.Turn:
+            case Substate.Turn:
                 //m_player?
                 // Do nothing
                 break;
-            case SubState.TurnEnd:
+            case Substate.TurnEnd:
                 // Do nothing
                 break;
-            case SubState.WaitingForOthers:
+            case Substate.WaitingForOthers:
                 // Do nothing
+                break;
+            default:
                 break;
         }
     }
@@ -61,6 +67,11 @@ public class PlayState : StateBase
         return m_state;
     }
 
+    public Substate GetSubstate()
+    {
+        return m_subState;
+    }
+
     public void OnSceneLoaded(Scene p_scene, LoadSceneMode p_loadMode)
     {
         m_gdc = GameDataCollection.GetInstance();
@@ -68,7 +79,7 @@ public class PlayState : StateBase
     }
 
     private PlayerState m_state = PlayerState.Play;
-    private SubState m_subState = SubState.GameStart;
+    private Substate m_subState = Substate.GameStart;
     private Player m_player = null;
     private GameDataCollection m_gdc = null;
 }

@@ -12,20 +12,7 @@ public enum CardColor
     BLACK,
     RED,
     GREEN,
-    RAINBOW
-}
-
-public enum  RoadColor
-{
-    PINK,   
-    WHITE,
-    BLUE,
-    YELLOW,
-    ORANGE,
-    BLACK,
-    RED,
-    GREEN,
-    ANY_COLOR
+    RAINBOW // it means any color when mentioned in road/Connection class
 }
 
 public enum StationName
@@ -193,6 +180,43 @@ public class HandDeck
     public int GetCardCount(CardColor color)
     {
         return m_cardCounts[color];
+    }
+
+    public bool IsOneColorSufficient(CardColor color, int count = 1)
+    {
+        // check if one color of card is sufficient to use, which means rainbow card can be used as any color
+        if (color == CardColor.RAINBOW)
+        {
+            return m_cardCounts[CardColor.RAINBOW] >= count;
+        }
+        else
+        {
+            return m_cardCounts[color] + m_cardCounts[CardColor.RAINBOW] >= count;
+        }
+    }
+
+    public bool IsAnyColorSufficient(int count = 1)
+    {
+        int rainbowCount = m_cardCounts[CardColor.RAINBOW];
+        if (rainbowCount >= count)
+        {
+            return true;
+        }
+
+        // check if any color of card is sufficient to use, which means rainbow card can be used as any color
+        foreach (KeyValuePair<CardColor, int> entry in m_cardCounts)
+        {
+            if (entry.Key != CardColor.RAINBOW && entry.Value + rainbowCount >= count)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public bool IsRainbowSufficient(int count = 1)
+    {
+        return m_cardCounts[CardColor.RAINBOW] >= count;
     }
 
     private Dictionary<CardColor, int> m_cardCounts;
