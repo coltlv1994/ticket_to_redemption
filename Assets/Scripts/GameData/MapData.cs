@@ -137,23 +137,12 @@ public class HandDeck
     // per player hand deck
     public HandDeck()
     {
-        m_cardCounts = new Dictionary<CardColor, int>();
-        m_cardCounts.Add(CardColor.RAINBOW, 0);
-        m_cardCounts.Add(CardColor.RED, 0);
-        m_cardCounts.Add(CardColor.GREEN, 0);
-        m_cardCounts.Add(CardColor.BLUE, 0);
-        m_cardCounts.Add(CardColor.BLACK, 0);
-        m_cardCounts.Add(CardColor.YELLOW, 0);
+        m_cardCounts = new Dictionary<CardColor, int>(GameDataCollection.GetInstance().GetEmptyDict_Color_int());
     }
 
     public void ResetHandDeck()
     {
-        m_cardCounts[CardColor.RAINBOW] = 0;
-        m_cardCounts[CardColor.RED] = 0;
-        m_cardCounts[CardColor.GREEN] = 0;
-        m_cardCounts[CardColor.BLUE] = 0;
-        m_cardCounts[CardColor.BLACK] = 0;
-        m_cardCounts[CardColor.YELLOW] = 0;
+        m_cardCounts = new Dictionary<CardColor, int>(GameDataCollection.GetInstance().GetEmptyDict_Color_int());
     }
 
     public void AddCard(CardColor color, int numOfNewCards = 1)

@@ -113,7 +113,7 @@ public class Player : NetworkBehaviour
                     DrawCardEvent drawCardEvent = (DrawCardEvent)nextEvent;
                     int drawCardNum = drawCardEvent.GetNumberOfCardsToDraw();
                     GameDataCollection gdc = GameDataCollection.GetInstance();
-                    m_handDeck.AddCard(gdc.GetRandomCard());
+                    m_handDeck.AddCard(gdc.GetRandomCard(), drawCardNum);
                     break;
                 case EventType.BUILD_ROAD:
                     // do something
@@ -192,7 +192,8 @@ public class Player : NetworkBehaviour
                     }
                 }
 
-                Debug.Log("Clicked on connection: " + hitConnection.m_end1.ToString() + " - " + hitConnection.m_end2.ToString());
+                m_mainSceneUIManager.GetComponent<MainSceneUIManager>().SetPendingEvent(buildRouteEvent, canBuildRoute);
+
             }
 
 
@@ -234,7 +235,7 @@ public class Player : NetworkBehaviour
 
     private HashSet<StationName> m_connectedStations;
     private int m_remainingCarts = 45;
-    private HandDeck m_handDeck;
+    private HandDeck m_handDeck = new HandDeck();
 
     // input actions
     private InputAction mouseLeftClick;
@@ -248,4 +249,8 @@ public class Player : NetworkBehaviour
 
     // Event
     private Queue<EventBase> m_eventQueue = new Queue<EventBase>();
+
+
+    // main scene ui control
+    [SerializeField] private GameObject m_mainSceneUIManager;
 }

@@ -130,6 +130,11 @@ public class GameDataCollection : MonoBehaviour
         return availableCardsOnDesk;
     }
 
+    public Dictionary<CardColor, int> GetEmptyDict_Color_int()
+    {
+        return emptyCardDict;
+    }
+
     #endregion
 
     #region PrivateMethods

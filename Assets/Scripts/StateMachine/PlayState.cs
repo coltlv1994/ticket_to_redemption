@@ -18,7 +18,7 @@ public class PlayState : StateBase
         SceneManager.LoadSceneAsync("MainScene");
         PlayerController pc = PlayerController.GetInstance();
         pc.SetPlayerState(PlayerState.Play);
-        pc.SetPlayerSubstate(Substate.GameStart);
+        pc.SetPlayerSubstate(Substate.WaitingForOthers);
     }
 
     public void OnExit()
@@ -60,6 +60,9 @@ public class PlayState : StateBase
             default:
                 break;
         }
+
+        // player update controls the camera and etc.
+        m_player?.OnUpdate();
     }
 
     public PlayerState GetState()
@@ -79,7 +82,7 @@ public class PlayState : StateBase
     }
 
     private PlayerState m_state = PlayerState.Play;
-    private Substate m_subState = Substate.GameStart;
+    private Substate m_subState = Substate.WaitingForOthers;
     private Player m_player = null;
     private GameDataCollection m_gdc = null;
 }
