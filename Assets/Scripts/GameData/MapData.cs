@@ -137,12 +137,18 @@ public class HandDeck
     // per player hand deck
     public HandDeck()
     {
-        m_cardCounts = new Dictionary<CardColor, int>(GameDataCollection.GetInstance().GetEmptyDict_Color_int());
+        foreach (CardColor color in Enum.GetValues(typeof(CardColor)))
+        {
+            m_cardCounts.Add(color, 0);
+        }
     }
 
     public void ResetHandDeck()
     {
-        m_cardCounts = new Dictionary<CardColor, int>(GameDataCollection.GetInstance().GetEmptyDict_Color_int());
+        foreach (CardColor color in Enum.GetValues(typeof(CardColor)))
+        {
+            m_cardCounts[color] = 0;
+        }
     }
 
     public void AddCard(CardColor color, int numOfNewCards = 1)
@@ -208,7 +214,7 @@ public class HandDeck
         return m_cardCounts[CardColor.RAINBOW] >= count;
     }
 
-    private Dictionary<CardColor, int> m_cardCounts;
+    private Dictionary<CardColor, int> m_cardCounts = new Dictionary<CardColor, int>();
 }
 
 public class TrainTicket

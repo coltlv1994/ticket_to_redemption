@@ -79,6 +79,7 @@ public class PlayState : StateBase
     {
         m_gdc = GameDataCollection.GetInstance();
         m_player = GameObject.Find("PlayerPrefab").GetComponent<Player>();
+        m_subState = Substate.GameStart;
     }
 
     private PlayerState m_state = PlayerState.Play;

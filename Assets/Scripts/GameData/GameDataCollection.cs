@@ -262,4 +262,5 @@ public class GameDataCollection : MonoBehaviour
     private Dictionary<CardColor, int> emptyCardDict = new Dictionary<CardColor, int>();
 
     private static GameDataCollection m_instance;
+
 }
