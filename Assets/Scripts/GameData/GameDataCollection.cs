@@ -116,12 +116,57 @@ public class GameDataCollection : MonoBehaviour
 
     public void DrawCardsToDesk(int numCards)
     {
-        // this will send cards to the desk
+        // check if there are still possible to darw cards to the desk
+        int totalPossibleCards = 0;
+        foreach (var kvp in cardDeck)
+        {
+            totalPossibleCards += kvp.Value;
+        }
+
+        foreach (var kvp in desertedCardDeck)
+        {
+            totalPossibleCards += kvp.Value;
+        }
+
+        if (totalPossibleCards < numCards)
+        {
+            // if there are not enough cards to draw, we will draw all the possible cards to the desk
+            numCards = totalPossibleCards;
+        }
+
+        bool disableRainbowCardCheck = false;
+        if (totalPossibleCards - cardDeck[CardColor.RAINBOW] - desertedCardDeck[CardColor.RAINBOW] < 3)
+        {
+            // no enough non-rainbow cards to draw, so we will disable the rainbow card check to avoid infinite loop
+            disableRainbowCardCheck = true;
+        }
+
         for (int i = 0; i < numCards; i++)
         {
+            // this will send cards to the desk
             CardColor drawnCard = GetRandomCard();
             availableCardsOnDesk.Add(drawnCard);
         }
+
+        if (!disableRainbowCardCheck)
+        {
+            while (IsRainbowCardTooMany())
+            {
+                // if there are too many rainbow cards, redraw the cards on the desk
+                foreach (CardColor card in availableCardsOnDesk)
+                {
+                    desertedCardDeck[card]++;
+                }
+                availableCardsOnDesk.Clear();
+                for (int i = 0; i < numCards; i++)
+                {
+                    CardColor drawnCard = GetRandomCard();
+                    availableCardsOnDesk.Add(drawnCard);
+                }
+            }
+        }
+
+        onDeskCardChange?.Invoke(availableCardsOnDesk);
     }
 
     public List<CardColor> GetAvailableCardsOnDesk()
@@ -133,6 +178,11 @@ public class GameDataCollection : MonoBehaviour
     public Dictionary<CardColor, int> GetEmptyDict_Color_int()
     {
         return emptyCardDict;
+    }
+
+    public void RegisterDeskCardChangeCallback(DeskCardChange_UI callback)
+    {
+        onDeskCardChange += callback;
     }
 
     #endregion
@@ -243,21 +293,29 @@ public class GameDataCollection : MonoBehaviour
     {
         // all destination tickets
     }
-    #endregion
 
-    public void ClearMapRoute()
+    private bool IsRainbowCardTooMany(int p_upperLimit = 3)
     {
-        foreach (Node node in mapData.Values)
+        List<CardColor> rainbowCard = availableCardsOnDesk.FindAll(card => card == CardColor.RAINBOW);
+        if (rainbowCard.Count < p_upperLimit)
         {
-            node.ResetNode();
+            return false;
+        }
+        else
+        {
+            return true;
         }
     }
+    #endregion
 
     private List<Route> routes;
     private Dictionary<StationName, Node> mapData;
     private Dictionary<CardColor, int> cardDeck; // this is the main card deck, cards will be drawn from here to player's hand and the desk
     private Dictionary<CardColor, int> desertedCardDeck; // deserted deck
     private List<CardColor> availableCardsOnDesk = new List<CardColor>(); // card that can be immediately drawn by player
+
+    public delegate void DeskCardChange_UI(List<CardColor> updatedDeskCards);
+    private DeskCardChange_UI onDeskCardChange;
 
     private Dictionary<CardColor, int> emptyCardDict = new Dictionary<CardColor, int>();
 

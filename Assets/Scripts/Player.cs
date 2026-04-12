@@ -22,36 +22,6 @@ enum CamDirection
 
 public class Player : NetworkBehaviour
 {
-    // Start is called once before the first execution of Update after the NetworkBehaviour is created
-    void Awake()
-    {
-        mouseLeftClick = InputSystem.actions.FindAction("Click");
-        if (mouseLeftClick != null)
-        {
-            mouseLeftClick.performed += OnMouseClickAction;
-        }
-
-        keyboardWASD = InputSystem.actions.FindAction("Move");
-        if (keyboardWASD != null)
-        {
-            keyboardWASD.performed += OnKeyboardWASDAction;
-            keyboardWASD.canceled += OnWASDReleased;
-        }
-
-        mouseRightClick = InputSystem.actions.FindAction("RightHold");
-        if (mouseRightClick != null)
-        {
-            mouseRightClick.performed += OnRightMousePressed;
-            mouseRightClick.canceled += OnRightMouseReleased;
-        }
-
-        mouseMove = InputSystem.actions.FindAction("Look");
-        if (mouseMove != null)
-        {
-            mouseMove.performed += OnMouseMove;
-        }
-    }
-
     public bool BuildRoute(Route p_route)
     {
         int cost = p_route.Item3;
@@ -113,7 +83,10 @@ public class Player : NetworkBehaviour
                     DrawCardEvent drawCardEvent = (DrawCardEvent)nextEvent;
                     int drawCardNum = drawCardEvent.GetNumberOfCardsToDraw();
                     GameDataCollection gdc = GameDataCollection.GetInstance();
-                    m_handDeck.AddCard(gdc.GetRandomCard(), drawCardNum);
+                    for (int i = 0; i < drawCardNum; i++)
+                    {
+                        m_handDeck.AddCard(gdc.GetRandomCard());
+                    }
                     break;
                 case EventType.BUILD_ROAD:
                     // do something
@@ -139,118 +112,49 @@ public class Player : NetworkBehaviour
         // event handling
         HandleEvent();
 
-        // cam update
-        // Camera movement
-        Camera maimCam = Camera.main;
-
-        Vector3 cameraFront = maimCam.transform.forward;
-        Vector3 cameraRight = maimCam.transform.right;
-
-        maimCam.transform.position += (cameraFront * kbInput.y + cameraRight * kbInput.x) * Time.deltaTime * 10.0f;
+        m_mainSceneUIManager.SyncCardCount(m_handDeck.GetAllCardCounts());
     }
 
-    private void OnMouseClickAction(InputAction.CallbackContext obj)
+    public bool IsRouteBuildable(Connection p_route)
     {
-        // do stuff
-        Vector2 vector2 = Mouse.current.position.ReadValue();
-        Ray rayOrigin = Camera.main.ScreenPointToRay(vector2);
-        RaycastHit hit;
-        if (Physics.Raycast(rayOrigin, out hit))
+        BuildRoadEvent buildRouteEvent = new BuildRoadEvent(p_route);
+        bool canBuildRoute = false;
+        // pop out UI to ask if player want to build route here
+        PlayerState ps = PlayerController.GetInstance().GetPlayerState();
+        Substate ss = PlayerController.GetInstance().GetSubState();
+
+        if (ps == PlayerState.Play && ss == Substate.Turn)
         {
-            Station hitStation = hit.collider.gameObject.GetComponent<Station>();
-            if (hitStation != null)
+            if (p_route.m_isClaimed == false)
             {
-                Debug.Log("Clicked on station: " + hitStation.m_name.ToString());
-            }
-
-            Connection hitConnection = hit.collider.gameObject.GetComponent<Connection>();
-            if (hitConnection != null)
-            {
-                BuildRoadEvent buildRouteEvent = new BuildRoadEvent(hitConnection);
-                bool canBuildRoute = false;
-                // pop out UI to ask if player want to build route here
-                PlayerState ps = PlayerController.GetInstance().GetPlayerState();
-                Substate ss = PlayerController.GetInstance().GetSubState();
-
-                if (ps == PlayerState.Play && ss == Substate.Turn)
+                if (m_handDeck.IsRainbowSufficient(p_route.m_boatCost))
                 {
-                    if (hitConnection.m_isClaimed == false)
+                    if (p_route.m_roadColor == CardColor.RAINBOW)
                     {
-                        if (m_handDeck.IsRainbowSufficient(hitConnection.m_boatCost))
-                        {
-                            if (hitConnection.m_roadColor == CardColor.RAINBOW)
-                            {
-                                // find the largest number of same color cards (including RAINBOW) in player's hand
-                                canBuildRoute = m_handDeck.IsAnyColorSufficient(hitConnection.m_totalCost);
-                            }
-                            else
-                            {
-                                canBuildRoute = m_handDeck.IsOneColorSufficient(hitConnection.m_roadColor, hitConnection.m_totalCost);
-                            }
-                        }
-
+                        // find the largest number of same color cards (including RAINBOW) in player's hand
+                        canBuildRoute = m_handDeck.IsAnyColorSufficient(p_route.m_totalCost);
+                    }
+                    else
+                    {
+                        canBuildRoute = m_handDeck.IsOneColorSufficient(p_route.m_roadColor, p_route.m_totalCost);
                     }
                 }
 
-                m_mainSceneUIManager.GetComponent<MainSceneUIManager>().SetPendingEvent(buildRouteEvent, canBuildRoute);
-
             }
-
-
         }
-    }
 
-    private void OnKeyboardWASDAction(InputAction.CallbackContext obj)
-    {
-        kbInput = obj.ReadValue<Vector2>();
-    }
+        return canBuildRoute;
 
-    private void OnWASDReleased(InputAction.CallbackContext obj)
-    {
-        kbInput = Vector2.zero;
-    }
-
-    private void OnRightMousePressed(InputAction.CallbackContext obj)
-    {
-        isRightMouseHold = true;
-        Debug.Log("Right mouse clicked");
-    }
-
-    private void OnRightMouseReleased(InputAction.CallbackContext obj)
-    {
-        isRightMouseHold = false;
-        Debug.Log("Right mouse released");
-    }
-
-    private void OnMouseMove(InputAction.CallbackContext obj)
-    {
-        if (isRightMouseHold)
-        {
-            // x+: right, x-: left, y+: up, y-: down
-            Vector2 vector2 = obj.ReadValue<Vector2>();
-            Camera.main.transform.SetPositionAndRotation(Camera.main.transform.position, Quaternion.Euler(
-                Camera.main.transform.rotation.eulerAngles + new Vector3(-vector2.y, vector2.x, 0) * Time.deltaTime * 100.0f));
-        }
     }
 
     private HashSet<StationName> m_connectedStations;
     private int m_remainingCarts = 45;
     private HandDeck m_handDeck = new HandDeck();
 
-    // input actions
-    private InputAction mouseLeftClick;
-    private InputAction mouseRightClick;
-    private InputAction keyboardWASD;
-    private InputAction mouseMove;
-
-    // Camera control
-    private bool isRightMouseHold = false;
-    private Vector2 kbInput = Vector2.zero;
-
     // Event
     private Queue<EventBase> m_eventQueue = new Queue<EventBase>();
 
 
     // main scene ui control
-    [SerializeField] private GameObject m_mainSceneUIManager;
+    [SerializeField] private MainSceneUIManager m_mainSceneUIManager;
 }

@@ -214,6 +214,11 @@ public class HandDeck
         return m_cardCounts[CardColor.RAINBOW] >= count;
     }
 
+    public Dictionary<CardColor, int> GetAllCardCounts()
+    {
+        return m_cardCounts;
+    }
+
     private Dictionary<CardColor, int> m_cardCounts = new Dictionary<CardColor, int>();
 }
 
