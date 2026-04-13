@@ -32,6 +32,7 @@ public class MainSceneUIManager : MonoBehaviour
     private InputAction mouseRightClick;
     private InputAction keyboardWASD;
     private InputAction mouseMove;
+
     // Camera control
     private bool isRightMouseHold = false;
     private Vector2 kbInput = Vector2.zero;
@@ -140,6 +141,9 @@ public class MainSceneUIManager : MonoBehaviour
 
     public void CloseButton_NotiWindow()
     {
+        // ask game data collection to generate connections
+        m_gameDataCollection.InstanciateUIConnectionPerfab();
+
         m_notificationWindow.SetActive(false);
     }
 
@@ -148,6 +152,8 @@ public class MainSceneUIManager : MonoBehaviour
         m_turnActionWindow.SetActive(false);
 
         // send event
+        m_player.AddEvent(m_pendingEvent);
+        m_pendingEvent = null;
 
         // reset UI elements
         ResetAllUIElements();
@@ -235,6 +241,12 @@ public class MainSceneUIManager : MonoBehaviour
 
     private void OnMouseClickAction(InputAction.CallbackContext obj)
     {
+        if (m_turnActionWindow.activeSelf == true)
+        {
+            // if turn action window is active, ignore mouse click on the map
+            return;
+        }
+
         // do stuff
         Vector2 vector2 = Mouse.current.position.ReadValue();
         Ray rayOrigin = Camera.main.ScreenPointToRay(vector2);
@@ -245,12 +257,34 @@ public class MainSceneUIManager : MonoBehaviour
             if (hitStation != null)
             {
                 Debug.Log("Clicked on station: " + hitStation.m_name.ToString());
+                return;
             }
 
-            Connection hitConnection = hit.collider.gameObject.GetComponent<Connection>();
+            UI_Connection hitConnection = hit.collider.gameObject.GetComponent<UI_Connection>();
             if (hitConnection != null)
             {
-                m_player.IsRouteBuildable(hitConnection);
+                Connection hitResult = hitConnection.m_connection;
+                bool isBuildable = m_player.IsRouteBuildable(hitResult);
+
+                // set pending event
+                if (isBuildable)
+                {
+                    BuildRoadEvent buildRoadEvent = new BuildRoadEvent(hitResult);
+                    m_pendingEvent = buildRoadEvent;
+                }
+
+                // show turn action window
+                m_titleTAW.text = "Build Road";
+                m_contentTAW.text = $"{hitResult.m_end1} - {hitResult.m_end2}\n Cost: {hitResult.m_totalCost}\n";
+                m_yesButtonTAW.SetActive(isBuildable);
+
+                //m_titleTAW.text = "DEBUG";
+                //m_contentTAW.text = hitConnection.transform.rotation.eulerAngles.ToString();
+                //m_yesButtonTAW.SetActive(false);
+
+                m_turnActionWindow.SetActive(true); 
+                
+                return;
             }
 
         }

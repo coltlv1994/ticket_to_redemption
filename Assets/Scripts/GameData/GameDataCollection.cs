@@ -3,9 +3,9 @@ using UnityEngine;
 using static UnityEngine.Rendering.CoreUtils;
 
 // Route is for connecting neighbors
-// first two is start and end
+// first two is start and end and road color
 // last three is total cost, tunnel and boat
-using Route = System.Tuple<StationName, StationName, int, int, int>;
+using Route = System.Tuple<StationName, StationName, CardColor, int, int, int>;
 
 public class GameDataCollection : MonoBehaviour
 {
@@ -27,8 +27,6 @@ public class GameDataCollection : MonoBehaviour
 
             routes = new List<Route>();
             mapData = new Dictionary<StationName, Node>();
-
-            GenerateMapRoute();
             GenerateCardDecks();
         }
         else
@@ -42,15 +40,11 @@ public class GameDataCollection : MonoBehaviour
     #region PublicMethods
     public Node GetNodeByName(StationName stationName)
     {
-        if (mapData.ContainsKey(stationName))
+        if (!mapData.ContainsKey(stationName))
         {
-            return mapData[stationName];
+            mapData[stationName] = new Node(stationName);
         }
-        else
-        {
-            Debug.LogError("Station name not found in map data: " + stationName);
-            return null;
-        }
+        return mapData[stationName];
     }
 
     public CardColor GetRandomCard()
@@ -190,85 +184,112 @@ public class GameDataCollection : MonoBehaviour
     #region PrivateMethods
     private void GenerateMapRoute()
     {
-        // generate nodes
-        for (int i = 0; i < (int)StationName.MAX_NUM_OF_STATIONS; i++)
-        {
-            mapData.Add((StationName)i, new Node((StationName)i));
-        }
-
-        routes.Add(new Route(StationName.COLTER, StationName.ISABELLA, 2, 0, 0));
-        routes.Add(new Route(StationName.COLTER, StationName.DAKOTA, 4, 0, 0));
-        routes.Add(new Route(StationName.ISABELLA, StationName.DAKOTA, 3, 0, 0));
-        routes.Add(new Route(StationName.ISABELLA, StationName.WALLACE, 4, 0, 0));
-        routes.Add(new Route(StationName.ISABELLA, StationName.PRONGHORN, 4, 0, 0));
-        routes.Add(new Route(StationName.WAPITI, StationName.DAKOTA, 5, 0, 0));
-        routes.Add(new Route(StationName.WAPITI, StationName.BUCCHUS, 1, 0, 0));
-        routes.Add(new Route(StationName.WAPITI, StationName.BRANDWINE, 6, 0, 0));
-        routes.Add(new Route(StationName.BUCCHUS, StationName.DAKOTA, 4, 0, 0));
-        routes.Add(new Route(StationName.BUCCHUS, StationName.OIL_FIELD, 3, 0, 0));
-        routes.Add(new Route(StationName.BUCCHUS, StationName.OCREAGB, 3, 0, 0));
-        routes.Add(new Route(StationName.BRANDWINE, StationName.OCREAGB, 3, 0, 0));
-        routes.Add(new Route(StationName.BRANDWINE, StationName.ANNESBURG, 3, 0, 0));
-        routes.Add(new Route(StationName.OCREAGB, StationName.OIL_FIELD, 5, 0, 0));
-        routes.Add(new Route(StationName.OCREAGB, StationName.ANNESBURG, 4, 0, 0));
-        routes.Add(new Route(StationName.OCREAGB, StationName.BUTCHER, 3, 0, 0));
-        routes.Add(new Route(StationName.ANNESBURG, StationName.VAN_HORN, 2, 0, 0));
-        routes.Add(new Route(StationName.PRONGHORN, StationName.WALLACE, 3, 0, 0));
-        routes.Add(new Route(StationName.PRONGHORN, StationName.OWANJILA, 3, 0, 0));
-        routes.Add(new Route(StationName.WALLACE, StationName.DAKOTA, 3, 0, 0));
-        routes.Add(new Route(StationName.WALLACE, StationName.VALENTINE, 3, 0, 0));
-        routes.Add(new Route(StationName.WALLACE, StationName.RIGGS, 3, 0, 0));
-        routes.Add(new Route(StationName.VALENTINE, StationName.DAKOTA, 2, 0, 0));
-        routes.Add(new Route(StationName.VALENTINE, StationName.OIL_FIELD, 2, 0, 0));
-        routes.Add(new Route(StationName.VALENTINE, StationName.HEARTLAND, 3, 0, 0));
-        routes.Add(new Route(StationName.VALENTINE, StationName.FLATNECK, 3, 0, 0));
-        routes.Add(new Route(StationName.OIL_FIELD, StationName.EMERALD, 3, 0, 0));
-        routes.Add(new Route(StationName.OIL_FIELD, StationName.HEARTLAND, 2, 0, 0));
-        routes.Add(new Route(StationName.EMERALD, StationName.HEARTLAND, 3, 0, 0));
-        routes.Add(new Route(StationName.EMERALD, StationName.CALIGA, 4, 0, 0));
-        routes.Add(new Route(StationName.EMERALD, StationName.LAGRAS, 3, 0, 0));
-        routes.Add(new Route(StationName.EMERALD, StationName.BUTCHER, 4, 0, 0));
-        routes.Add(new Route(StationName.BUTCHER, StationName.VAN_HORN, 1, 0, 0));
-        routes.Add(new Route(StationName.VAN_HORN, StationName.PRISON, 4, 0, 0));
-        routes.Add(new Route(StationName.VAN_HORN, StationName.ST_DENIS, 5, 0, 0));
-        routes.Add(new Route(StationName.OWANJILA, StationName.STRAWBERRY, 1, 0, 0));
-        routes.Add(new Route(StationName.OWANJILA, StationName.BEECHER, 3, 0, 0));
-        routes.Add(new Route(StationName.OWANJILA, StationName.MACFARLANE, 4, 0, 0));
-        routes.Add(new Route(StationName.STRAWBERRY, StationName.RIGGS, 2, 0, 0));
-        routes.Add(new Route(StationName.STRAWBERRY, StationName.BEECHER, 3, 0, 0));
-        routes.Add(new Route(StationName.RIGGS, StationName.FLATNECK, 2, 0, 0));
-        routes.Add(new Route(StationName.RIGGS, StationName.BLACKWATER, 2, 0, 0));
-        routes.Add(new Route(StationName.FLATNECK, StationName.HEARTLAND, 3, 0, 0));
-        routes.Add(new Route(StationName.FLATNECK, StationName.RHODES, 5, 0, 0));
-        routes.Add(new Route(StationName.HEARTLAND, StationName.RHODES, 4, 0, 0));
-        routes.Add(new Route(StationName.LAGRAS, StationName.CALIGA, 2, 0, 0));
-        routes.Add(new Route(StationName.LAGRAS, StationName.ST_DENIS, 3, 0, 0));
-        routes.Add(new Route(StationName.PRISON, StationName.ST_DENIS, 3, 0, 0));
-        routes.Add(new Route(StationName.BEECHER, StationName.BLACKWATER, 1, 0, 0));
-        routes.Add(new Route(StationName.BEECHER, StationName.MACFARLANE, 3, 0, 0));
-        routes.Add(new Route(StationName.BLACKWATER, StationName.RHODES, 6, 0, 0));
-        routes.Add(new Route(StationName.BLACKWATER, StationName.THIEVES, 3, 0, 0));
-        routes.Add(new Route(StationName.RHODES, StationName.ST_DENIS, 4, 0, 0));
-        routes.Add(new Route(StationName.RHODES, StationName.CALIGA, 2, 0, 0));
-        routes.Add(new Route(StationName.ST_DENIS, StationName.CALIGA, 2, 0, 0));
-        routes.Add(new Route(StationName.ST_DENIS, StationName.THIEVES, 8, 0, 0));
-        routes.Add(new Route(StationName.COUJAR, StationName.TUMBLEWEED, 2, 0, 0));
-        routes.Add(new Route(StationName.COUJAR, StationName.BENEDICT, 2, 0, 0));
-        routes.Add(new Route(StationName.TUMBLEWEED, StationName.BENEDICT, 3, 0, 0));
-        routes.Add(new Route(StationName.TUMBLEWEED, StationName.MERCER, 4, 0, 0));
-        routes.Add(new Route(StationName.MERCER, StationName.DON_JILA, 2, 0, 0));
-        routes.Add(new Route(StationName.MERCER, StationName.ARMADILLO, 3, 0, 0));
-        routes.Add(new Route(StationName.DON_JILA, StationName.ARMADILLO, 2, 0, 0));
-        routes.Add(new Route(StationName.DON_JILA, StationName.MACFARLANE, 3, 0, 0));
-        routes.Add(new Route(StationName.DON_JILA, StationName.THIEVES, 4, 0, 0));
-        routes.Add(new Route(StationName.ARMADILLO, StationName.MACFARLANE, 3, 0, 0));
-        routes.Add(new Route(StationName.MACFARLANE, StationName.THIEVES, 2, 0, 0));
+        routes.Add(new Route(StationName.COLTER, StationName.ISABELLA, CardColor.PINK, 2, 0, 0));
+        routes.Add(new Route(StationName.COLTER, StationName.DAKOTA, CardColor.PINK, 4, 0, 0));
+        routes.Add(new Route(StationName.COLTER, StationName.WAPITI, CardColor.PINK, 4, 0, 0));
+        routes.Add(new Route(StationName.ISABELLA, StationName.DAKOTA, CardColor.PINK, 3, 0, 0));
+        routes.Add(new Route(StationName.ISABELLA, StationName.WALLACE, CardColor.PINK, 4, 0, 0));
+        routes.Add(new Route(StationName.ISABELLA, StationName.PRONGHORN, CardColor.PINK, 4, 0, 0));
+        routes.Add(new Route(StationName.WAPITI, StationName.DAKOTA, CardColor.PINK, 5, 0, 0));
+        routes.Add(new Route(StationName.WAPITI, StationName.BUCCHUS, CardColor.PINK, 1, 0, 0));
+        routes.Add(new Route(StationName.WAPITI, StationName.BRANDWINE, CardColor.PINK, 6, 0, 0));
+        routes.Add(new Route(StationName.BUCCHUS, StationName.DAKOTA, CardColor.PINK, 4, 0, 0));
+        routes.Add(new Route(StationName.BUCCHUS, StationName.OIL_FIELD, CardColor.PINK, 3, 0, 0));
+        routes.Add(new Route(StationName.BUCCHUS, StationName.OCREAGB, CardColor.PINK, 3, 0, 0));
+        routes.Add(new Route(StationName.BRANDWINE, StationName.OCREAGB, CardColor.PINK, 3, 0, 0));
+        routes.Add(new Route(StationName.BRANDWINE, StationName.ANNESBURG, CardColor.PINK, 3, 0, 0));
+        routes.Add(new Route(StationName.OCREAGB, StationName.OIL_FIELD, CardColor.PINK, 5, 0, 0));
+        routes.Add(new Route(StationName.OCREAGB, StationName.ANNESBURG, CardColor.PINK, 4, 0, 0));
+        routes.Add(new Route(StationName.OCREAGB, StationName.BUTCHER, CardColor.PINK, 3, 0, 0));
+        routes.Add(new Route(StationName.ANNESBURG, StationName.VAN_HORN, CardColor.PINK, 2, 0, 0));
+        routes.Add(new Route(StationName.PRONGHORN, StationName.WALLACE, CardColor.PINK, 3, 0, 0));
+        routes.Add(new Route(StationName.PRONGHORN, StationName.OWANJILA, CardColor.PINK, 3, 0, 0));
+        routes.Add(new Route(StationName.WALLACE, StationName.DAKOTA, CardColor.PINK, 3, 0, 0));
+        routes.Add(new Route(StationName.WALLACE, StationName.VALENTINE, CardColor.PINK, 3, 0, 0));
+        routes.Add(new Route(StationName.WALLACE, StationName.RIGGS, CardColor.PINK, 3, 0, 0));
+        routes.Add(new Route(StationName.VALENTINE, StationName.DAKOTA, CardColor.PINK, 2, 0, 0));
+        routes.Add(new Route(StationName.VALENTINE, StationName.OIL_FIELD, CardColor.PINK, 2, 0, 0));
+        routes.Add(new Route(StationName.VALENTINE, StationName.HEARTLAND, CardColor.PINK, 3, 0, 0));
+        routes.Add(new Route(StationName.VALENTINE, StationName.FLATNECK, CardColor.PINK, 3, 0, 0));
+        routes.Add(new Route(StationName.OIL_FIELD, StationName.EMERALD, CardColor.PINK, 3, 0, 0));
+        routes.Add(new Route(StationName.OIL_FIELD, StationName.HEARTLAND, CardColor.PINK, 2, 0, 0));
+        routes.Add(new Route(StationName.EMERALD, StationName.HEARTLAND, CardColor.PINK, 3, 0, 0));
+        routes.Add(new Route(StationName.EMERALD, StationName.CALIGA, CardColor.PINK, 4, 0, 0));
+        routes.Add(new Route(StationName.EMERALD, StationName.LAGRAS, CardColor.PINK, 3, 0, 0));
+        routes.Add(new Route(StationName.EMERALD, StationName.BUTCHER, CardColor.PINK, 4, 0, 0));
+        routes.Add(new Route(StationName.BUTCHER, StationName.VAN_HORN, CardColor.PINK, 1, 0, 0));
+        routes.Add(new Route(StationName.VAN_HORN, StationName.PRISON, CardColor.PINK, 4, 0, 0));
+        routes.Add(new Route(StationName.VAN_HORN, StationName.ST_DENIS, CardColor.PINK, 5, 0, 0));
+        routes.Add(new Route(StationName.OWANJILA, StationName.STRAWBERRY, CardColor.PINK, 1, 0, 0));
+        routes.Add(new Route(StationName.OWANJILA, StationName.BEECHER, CardColor.PINK, 3, 0, 0));
+        routes.Add(new Route(StationName.OWANJILA, StationName.MACFARLANE, CardColor.PINK, 4, 0, 0));
+        routes.Add(new Route(StationName.STRAWBERRY, StationName.RIGGS, CardColor.PINK, 2, 0, 0));
+        routes.Add(new Route(StationName.STRAWBERRY, StationName.BEECHER, CardColor.PINK, 3, 0, 0));
+        routes.Add(new Route(StationName.RIGGS, StationName.FLATNECK, CardColor.PINK, 2, 0, 0));
+        routes.Add(new Route(StationName.RIGGS, StationName.BLACKWATER, CardColor.PINK, 2, 0, 0));
+        routes.Add(new Route(StationName.FLATNECK, StationName.HEARTLAND, CardColor.PINK, 3, 0, 0));
+        routes.Add(new Route(StationName.FLATNECK, StationName.RHODES, CardColor.PINK, 5, 0, 0));
+        routes.Add(new Route(StationName.HEARTLAND, StationName.RHODES, CardColor.PINK, 4, 0, 0));
+        routes.Add(new Route(StationName.LAGRAS, StationName.CALIGA, CardColor.PINK, 2, 0, 0));
+        routes.Add(new Route(StationName.LAGRAS, StationName.ST_DENIS, CardColor.PINK, 3, 0, 0));
+        routes.Add(new Route(StationName.PRISON, StationName.ST_DENIS, CardColor.PINK, 3, 0, 0));
+        routes.Add(new Route(StationName.BEECHER, StationName.BLACKWATER, CardColor.PINK, 1, 0, 0));
+        routes.Add(new Route(StationName.BEECHER, StationName.MACFARLANE, CardColor.PINK, 3, 0, 0));
+        routes.Add(new Route(StationName.BLACKWATER, StationName.RHODES, CardColor.PINK, 6, 0, 0));
+        routes.Add(new Route(StationName.BLACKWATER, StationName.THIEVES, CardColor.PINK, 3, 0, 0));
+        routes.Add(new Route(StationName.RHODES, StationName.ST_DENIS, CardColor.PINK, 4, 0, 0));
+        routes.Add(new Route(StationName.RHODES, StationName.CALIGA, CardColor.PINK, 2, 0, 0));
+        routes.Add(new Route(StationName.ST_DENIS, StationName.CALIGA, CardColor.PINK, 2, 0, 0));
+        routes.Add(new Route(StationName.ST_DENIS, StationName.THIEVES, CardColor.PINK, 8, 0, 0));
+        routes.Add(new Route(StationName.COUJAR, StationName.TUMBLEWEED, CardColor.PINK, 2, 0, 0));
+        routes.Add(new Route(StationName.COUJAR, StationName.BENEDICT, CardColor.PINK, 2, 0, 0));
+        routes.Add(new Route(StationName.TUMBLEWEED, StationName.BENEDICT, CardColor.PINK, 3, 0, 0));
+        routes.Add(new Route(StationName.TUMBLEWEED, StationName.MERCER, CardColor.PINK, 4, 0, 0));
+        routes.Add(new Route(StationName.MERCER, StationName.DON_JILA, CardColor.PINK, 2, 0, 0));
+        routes.Add(new Route(StationName.MERCER, StationName.ARMADILLO, CardColor.PINK, 3, 0, 0));
+        routes.Add(new Route(StationName.DON_JILA, StationName.ARMADILLO, CardColor.PINK, 2, 0, 0));
+        routes.Add(new Route(StationName.DON_JILA, StationName.MACFARLANE, CardColor.PINK, 3, 0, 0));
+        routes.Add(new Route(StationName.DON_JILA, StationName.THIEVES, CardColor.PINK, 4, 0, 0));
+        routes.Add(new Route(StationName.ARMADILLO, StationName.MACFARLANE, CardColor.PINK, 3, 0, 0));
+        routes.Add(new Route(StationName.MACFARLANE, StationName.THIEVES, CardColor.PINK, 2, 0, 0));
 
         // read into map data
         foreach (Route route in routes)
         {
-            mapData[route.Item1].AddNeighbor(route.Item2, route.Item3, route.Item4, route.Item5);
-            mapData[route.Item2].AddNeighbor(route.Item1, route.Item3, route.Item4, route.Item5);
+            mapData[route.Item1].AddNeighbor(route.Item2, route.Item4, route.Item5, route.Item6);
+            mapData[route.Item2].AddNeighbor(route.Item1, route.Item4, route.Item5, route.Item6);
+        }
+    }
+
+    public void InstanciateUIConnectionPerfab()
+    {
+        GenerateMapRoute();
+
+        foreach (Route route in routes)
+        {
+            Connection connection = new Connection(route);
+
+            Vector3 startPos = mapData[route.Item1].GetPosition();
+            Vector3 endPos = mapData[route.Item2].GetPosition();
+            Vector3 intermediateVector = endPos - startPos;
+            int totalSections = route.Item4;
+            Vector3 halfSectionVector = intermediateVector / 2.0f / (float)totalSections;
+
+            Quaternion rot = Quaternion.FromToRotation(Vector3.right, intermediateVector);
+
+            List<Vector3> sectionMiddlePoints = new List<Vector3>();
+            float sectionLength = Vector3.Distance(startPos, endPos) / (float)totalSections;
+
+            for (int i = 1; i <= totalSections; i++)
+            {
+                Vector3 sectionMiddlePoint = startPos + (intermediateVector * ((float)i / totalSections)) - halfSectionVector;
+                sectionMiddlePoints.Add(sectionMiddlePoint);
+                GameObject connectionObj = Instantiate(m_uiConnectionPrefab, sectionMiddlePoint, Quaternion.identity);
+                connectionObj.transform.localScale = new Vector3(sectionLength * 0.9f, 0.2f, 1f); // Adjust the width and height as needed
+                connectionObj.transform.rotation = rot;
+                UI_Connection uiConnection = connectionObj.GetComponent<UI_Connection>();
+                uiConnection.m_connection = connection;
+            }
         }
     }
 
@@ -320,5 +341,7 @@ public class GameDataCollection : MonoBehaviour
     private Dictionary<CardColor, int> emptyCardDict = new Dictionary<CardColor, int>();
 
     private static GameDataCollection m_instance;
+
+    [SerializeField] public GameObject m_uiConnectionPrefab;
 
 }
