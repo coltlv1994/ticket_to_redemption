@@ -16,9 +16,6 @@ public class PlayState : StateBase
     public void OnEnter()
     {
         SceneManager.LoadSceneAsync("MainScene");
-        PlayerController pc = PlayerController.GetInstance();
-        pc.SetPlayerState(PlayerState.Play);
-        pc.SetPlayerSubstate(Substate.WaitingForOthers);
     }
 
     public void OnExit()
@@ -42,7 +39,7 @@ public class PlayState : StateBase
                 // let AI or other player draw, too
 
                 // Game start, need some logic to decide who goes first
-                m_subState = Substate.TurnStart;
+                m_subState = Substate.Turn;
                 break;
             case Substate.TurnStart:
                 // Do nothing

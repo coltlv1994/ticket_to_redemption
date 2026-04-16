@@ -12,9 +12,6 @@ public class IntroState : StateBase
     public void OnEnter()
     {
         // Read file
-        PlayerController pc = PlayerController.GetInstance();
-        pc.SetPlayerState(PlayerState.Intro);
-        pc.SetPlayerSubstate(Substate.NOT_IN_PLAY_STATE);
     }
 
     public void OnExit()

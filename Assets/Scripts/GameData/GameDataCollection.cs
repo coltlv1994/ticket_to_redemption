@@ -184,53 +184,65 @@ public class GameDataCollection : MonoBehaviour
     #region PrivateMethods
     private void GenerateMapRoute()
     {
+        // DEBUG PART
         routes.Add(new Route(StationName.COLTER, StationName.ISABELLA, CardColor.PINK, 2, 0, 0));
-        routes.Add(new Route(StationName.COLTER, StationName.DAKOTA, CardColor.PINK, 4, 0, 0));
-        routes.Add(new Route(StationName.COLTER, StationName.WAPITI, CardColor.PINK, 4, 0, 0));
-        routes.Add(new Route(StationName.ISABELLA, StationName.DAKOTA, CardColor.PINK, 3, 0, 0));
-        routes.Add(new Route(StationName.ISABELLA, StationName.WALLACE, CardColor.PINK, 4, 0, 0));
-        routes.Add(new Route(StationName.ISABELLA, StationName.PRONGHORN, CardColor.PINK, 4, 0, 0));
-        routes.Add(new Route(StationName.WAPITI, StationName.DAKOTA, CardColor.PINK, 5, 0, 0));
-        routes.Add(new Route(StationName.WAPITI, StationName.BUCCHUS, CardColor.PINK, 1, 0, 0));
-        routes.Add(new Route(StationName.WAPITI, StationName.BRANDWINE, CardColor.PINK, 6, 0, 0));
+        routes.Add(new Route(StationName.COLTER, StationName.DAKOTA, CardColor.WHITE, 4, 0, 0));
+        routes.Add(new Route(StationName.COLTER, StationName.WAPITI, CardColor.RED, 4, 0, 0));
+        routes.Add(new Route(StationName.ISABELLA, StationName.DAKOTA, CardColor.BLUE, 3, 0, 0));
+        routes.Add(new Route(StationName.ISABELLA, StationName.WALLACE, CardColor.GREEN, 4, 0, 0));
+        routes.Add(new Route(StationName.ISABELLA, StationName.PRONGHORN, CardColor.BLACK, 4, 0, 0));
+        routes.Add(new Route(StationName.WAPITI, StationName.DAKOTA, CardColor.ORANGE, 5, 0, 0));
+        routes.Add(new Route(StationName.WAPITI, StationName.BUCCHUS, CardColor.YELLOW, 1, 0, 0));
+        routes.Add(new Route(StationName.WAPITI, StationName.BRANDWINE, CardColor.RAINBOW, 6, 0, 0));
+
+        // OTHERS
         routes.Add(new Route(StationName.BUCCHUS, StationName.DAKOTA, CardColor.PINK, 4, 0, 0));
         routes.Add(new Route(StationName.BUCCHUS, StationName.OIL_FIELD, CardColor.PINK, 3, 0, 0));
         routes.Add(new Route(StationName.BUCCHUS, StationName.OCREAGB, CardColor.PINK, 3, 0, 0));
         routes.Add(new Route(StationName.BRANDWINE, StationName.OCREAGB, CardColor.PINK, 3, 0, 0));
-        routes.Add(new Route(StationName.BRANDWINE, StationName.ANNESBURG, CardColor.PINK, 3, 0, 0));
-        routes.Add(new Route(StationName.OCREAGB, StationName.OIL_FIELD, CardColor.PINK, 5, 0, 0));
+        routes.Add(new Route(StationName.BRANDWINE, StationName.ANNESBURG, CardColor.PINK, 2, 0, 0));
+        routes.Add(new Route(StationName.OCREAGB, StationName.OIL_FIELD, CardColor.PINK, 4, 0, 0));
         routes.Add(new Route(StationName.OCREAGB, StationName.ANNESBURG, CardColor.PINK, 4, 0, 0));
         routes.Add(new Route(StationName.OCREAGB, StationName.BUTCHER, CardColor.PINK, 3, 0, 0));
+        routes.Add(new Route(StationName.OCREAGB, StationName.EMERALD, CardColor.PINK, 2, 0, 0));
         routes.Add(new Route(StationName.ANNESBURG, StationName.VAN_HORN, CardColor.PINK, 2, 0, 0));
+        routes.Add(new Route(StationName.ANNESBURG, StationName.BUTCHER, CardColor.PINK, 1, 0, 0));
         routes.Add(new Route(StationName.PRONGHORN, StationName.WALLACE, CardColor.PINK, 3, 0, 0));
-        routes.Add(new Route(StationName.PRONGHORN, StationName.OWANJILA, CardColor.PINK, 3, 0, 0));
+        routes.Add(new Route(StationName.PRONGHORN, StationName.OWANJILA, CardColor.PINK, 2, 0, 0));
+        routes.Add(new Route(StationName.PRONGHORN, StationName.STRAWBERRY, CardColor.PINK, 2, 0, 0));
         routes.Add(new Route(StationName.WALLACE, StationName.DAKOTA, CardColor.PINK, 3, 0, 0));
         routes.Add(new Route(StationName.WALLACE, StationName.VALENTINE, CardColor.PINK, 3, 0, 0));
-        routes.Add(new Route(StationName.WALLACE, StationName.RIGGS, CardColor.PINK, 3, 0, 0));
+        routes.Add(new Route(StationName.WALLACE, StationName.RIGGS, CardColor.PINK, 2, 0, 0));
+        routes.Add(new Route(StationName.WALLACE, StationName.STRAWBERRY, CardColor.PINK, 2, 0, 0));
         routes.Add(new Route(StationName.VALENTINE, StationName.DAKOTA, CardColor.PINK, 2, 0, 0));
         routes.Add(new Route(StationName.VALENTINE, StationName.OIL_FIELD, CardColor.PINK, 2, 0, 0));
         routes.Add(new Route(StationName.VALENTINE, StationName.HEARTLAND, CardColor.PINK, 3, 0, 0));
-        routes.Add(new Route(StationName.VALENTINE, StationName.FLATNECK, CardColor.PINK, 3, 0, 0));
+        routes.Add(new Route(StationName.VALENTINE, StationName.FLATNECK, CardColor.PINK, 2, 0, 0));
+        routes.Add(new Route(StationName.VALENTINE, StationName.RIGGS, CardColor.PINK, 3, 0, 0));
         routes.Add(new Route(StationName.OIL_FIELD, StationName.EMERALD, CardColor.PINK, 3, 0, 0));
         routes.Add(new Route(StationName.OIL_FIELD, StationName.HEARTLAND, CardColor.PINK, 2, 0, 0));
+        routes.Add(new Route(StationName.OIL_FIELD, StationName.DAKOTA, CardColor.PINK, 2, 0, 0));
         routes.Add(new Route(StationName.EMERALD, StationName.HEARTLAND, CardColor.PINK, 3, 0, 0));
         routes.Add(new Route(StationName.EMERALD, StationName.CALIGA, CardColor.PINK, 4, 0, 0));
         routes.Add(new Route(StationName.EMERALD, StationName.LAGRAS, CardColor.PINK, 3, 0, 0));
-        routes.Add(new Route(StationName.EMERALD, StationName.BUTCHER, CardColor.PINK, 4, 0, 0));
+        routes.Add(new Route(StationName.EMERALD, StationName.BUTCHER, CardColor.PINK, 3, 0, 0));
+        routes.Add(new Route(StationName.EMERALD, StationName.RHODES, CardColor.PINK, 6, 0, 0));
         routes.Add(new Route(StationName.BUTCHER, StationName.VAN_HORN, CardColor.PINK, 1, 0, 0));
+        routes.Add(new Route(StationName.BUTCHER, StationName.LAGRAS, CardColor.PINK, 5, 0, 0));
         routes.Add(new Route(StationName.VAN_HORN, StationName.PRISON, CardColor.PINK, 4, 0, 0));
         routes.Add(new Route(StationName.VAN_HORN, StationName.ST_DENIS, CardColor.PINK, 5, 0, 0));
+        routes.Add(new Route(StationName.VAN_HORN, StationName.LAGRAS, CardColor.PINK, 4, 0, 0));
         routes.Add(new Route(StationName.OWANJILA, StationName.STRAWBERRY, CardColor.PINK, 1, 0, 0));
         routes.Add(new Route(StationName.OWANJILA, StationName.BEECHER, CardColor.PINK, 3, 0, 0));
         routes.Add(new Route(StationName.OWANJILA, StationName.MACFARLANE, CardColor.PINK, 4, 0, 0));
         routes.Add(new Route(StationName.STRAWBERRY, StationName.RIGGS, CardColor.PINK, 2, 0, 0));
-        routes.Add(new Route(StationName.STRAWBERRY, StationName.BEECHER, CardColor.PINK, 3, 0, 0));
+        routes.Add(new Route(StationName.STRAWBERRY, StationName.BEECHER, CardColor.PINK, 2, 0, 0));
         routes.Add(new Route(StationName.RIGGS, StationName.FLATNECK, CardColor.PINK, 2, 0, 0));
         routes.Add(new Route(StationName.RIGGS, StationName.BLACKWATER, CardColor.PINK, 2, 0, 0));
-        routes.Add(new Route(StationName.FLATNECK, StationName.HEARTLAND, CardColor.PINK, 3, 0, 0));
+        routes.Add(new Route(StationName.FLATNECK, StationName.HEARTLAND, CardColor.PINK, 2, 0, 0));
         routes.Add(new Route(StationName.FLATNECK, StationName.RHODES, CardColor.PINK, 5, 0, 0));
         routes.Add(new Route(StationName.HEARTLAND, StationName.RHODES, CardColor.PINK, 4, 0, 0));
-        routes.Add(new Route(StationName.LAGRAS, StationName.CALIGA, CardColor.PINK, 2, 0, 0));
+        routes.Add(new Route(StationName.LAGRAS, StationName.CALIGA, CardColor.PINK, 1, 0, 0));
         routes.Add(new Route(StationName.LAGRAS, StationName.ST_DENIS, CardColor.PINK, 3, 0, 0));
         routes.Add(new Route(StationName.PRISON, StationName.ST_DENIS, CardColor.PINK, 3, 0, 0));
         routes.Add(new Route(StationName.BEECHER, StationName.BLACKWATER, CardColor.PINK, 1, 0, 0));
@@ -244,12 +256,14 @@ public class GameDataCollection : MonoBehaviour
         routes.Add(new Route(StationName.COUJAR, StationName.TUMBLEWEED, CardColor.PINK, 2, 0, 0));
         routes.Add(new Route(StationName.COUJAR, StationName.BENEDICT, CardColor.PINK, 2, 0, 0));
         routes.Add(new Route(StationName.TUMBLEWEED, StationName.BENEDICT, CardColor.PINK, 3, 0, 0));
-        routes.Add(new Route(StationName.TUMBLEWEED, StationName.MERCER, CardColor.PINK, 4, 0, 0));
+        routes.Add(new Route(StationName.TUMBLEWEED, StationName.MERCER, CardColor.PINK, 3, 0, 0));
         routes.Add(new Route(StationName.MERCER, StationName.DON_JILA, CardColor.PINK, 2, 0, 0));
-        routes.Add(new Route(StationName.MERCER, StationName.ARMADILLO, CardColor.PINK, 3, 0, 0));
+        routes.Add(new Route(StationName.MERCER, StationName.ARMADILLO, CardColor.PINK, 2, 0, 0));
+        routes.Add(new Route(StationName.MERCER, StationName.BENEDICT, CardColor.PINK, 3, 0, 0));
         routes.Add(new Route(StationName.DON_JILA, StationName.ARMADILLO, CardColor.PINK, 2, 0, 0));
         routes.Add(new Route(StationName.DON_JILA, StationName.MACFARLANE, CardColor.PINK, 3, 0, 0));
         routes.Add(new Route(StationName.DON_JILA, StationName.THIEVES, CardColor.PINK, 4, 0, 0));
+        routes.Add(new Route(StationName.DON_JILA, StationName.BENEDICT, CardColor.PINK, 4, 0, 0));
         routes.Add(new Route(StationName.ARMADILLO, StationName.MACFARLANE, CardColor.PINK, 3, 0, 0));
         routes.Add(new Route(StationName.MACFARLANE, StationName.THIEVES, CardColor.PINK, 2, 0, 0));
 
@@ -273,22 +287,35 @@ public class GameDataCollection : MonoBehaviour
             Vector3 endPos = mapData[route.Item2].GetPosition();
             Vector3 intermediateVector = endPos - startPos;
             int totalSections = route.Item4;
+            float sectionLength = Vector3.Distance(startPos, endPos) / (float)totalSections;
             Vector3 halfSectionVector = intermediateVector / 2.0f / (float)totalSections;
 
-            Quaternion rot = Quaternion.FromToRotation(Vector3.right, intermediateVector);
-
-            List<Vector3> sectionMiddlePoints = new List<Vector3>();
-            float sectionLength = Vector3.Distance(startPos, endPos) / (float)totalSections;
+            Vector3 sectionScale = new Vector3(sectionLength * 0.9f, 0.2f, 1f);
+            Quaternion sectionrotation = Quaternion.FromToRotation(Vector3.right, intermediateVector);
 
             for (int i = 1; i <= totalSections; i++)
             {
                 Vector3 sectionMiddlePoint = startPos + (intermediateVector * ((float)i / totalSections)) - halfSectionVector;
-                sectionMiddlePoints.Add(sectionMiddlePoint);
                 GameObject connectionObj = Instantiate(m_uiConnectionPrefab, sectionMiddlePoint, Quaternion.identity);
-                connectionObj.transform.localScale = new Vector3(sectionLength * 0.9f, 0.2f, 1f); // Adjust the width and height as needed
-                connectionObj.transform.rotation = rot;
+                connectionObj.transform.localScale = sectionScale; // Adjust the width and height as needed
+                connectionObj.transform.rotation = sectionrotation;
+                connectionObj.GetComponent<MeshRenderer>().material.color = route.Item3 switch
+                {
+                    CardColor.PINK => Color.hotPink,
+                    CardColor.RED => Color.red,
+                    CardColor.GREEN => Color.green,
+                    CardColor.BLUE => Color.blue,
+                    CardColor.YELLOW => Color.yellow,
+                    CardColor.BLACK => Color.black,
+                    CardColor.WHITE => Color.white,
+                    CardColor.ORANGE => Color.orangeRed,
+                    CardColor.RAINBOW => Color.gray, // grey for rainbow
+                    _ => Color.gray, // Default color for undefined card colors
+                }
+                ;
                 UI_Connection uiConnection = connectionObj.GetComponent<UI_Connection>();
                 uiConnection.m_connection = connection;
+                connection.AddUIPart(uiConnection);
             }
         }
     }

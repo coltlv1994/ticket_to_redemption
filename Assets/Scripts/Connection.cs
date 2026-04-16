@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 // Route is for connecting neighbors
@@ -17,6 +18,11 @@ public class Connection
         m_tunnelCost = p_route.Item6;
     }
 
+    public void AddUIPart(UI_Connection p_uiPart)
+    {
+        m_uiList.Add(p_uiPart);
+    }
+
     public StationName m_end1, m_end2;
 
     public int m_totalCost;
@@ -28,4 +34,6 @@ public class Connection
     public CardColor m_roadColor;
 
     public bool m_isClaimed = false;
+
+    public List<UI_Connection> m_uiList = new List<UI_Connection>();
 }

@@ -72,12 +72,12 @@ public class PlayerController : MonoBehaviour
 
     public PlayerState GetPlayerState()
     {         
-        return m_playerState;
+        return m_currentState.GetState();
     }
 
     public Substate GetSubState()
     {
-        return m_substate;
+        return m_currentState.GetSubstate();
     }
 
     public void UpdatePlayerRef(Player p_player)
@@ -90,23 +90,10 @@ public class PlayerController : MonoBehaviour
         return m_player;
     }
 
-    public void SetPlayerState(PlayerState state)
-    {
-        m_playerState = state;
-    }
-
-    public void SetPlayerSubstate(Substate substate) 
-    {
-        m_substate = substate;
-    }
-
     private static PlayerController m_instance;
     private Player m_player = null;
 
     private StateBase m_currentState;
     private StateBase m_nextState;
     private bool m_isChangingState;
-
-    private PlayerState m_playerState;
-    private Substate m_substate;
 }

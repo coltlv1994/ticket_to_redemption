@@ -141,6 +141,8 @@ public class HandDeck
         {
             m_cardCounts.Add(color, 0);
         }
+
+        //DEBUG_AddCard();
     }
 
     public void ResetHandDeck()
@@ -217,6 +219,19 @@ public class HandDeck
     public Dictionary<CardColor, int> GetAllCardCounts()
     {
         return m_cardCounts;
+    }
+
+    public void DEBUG_AddCard()
+    {
+        m_cardCounts[CardColor.PINK] += 10;
+        m_cardCounts[CardColor.WHITE] += 10;
+        m_cardCounts[CardColor.BLUE] += 10;
+        m_cardCounts[CardColor.YELLOW] += 10;
+        m_cardCounts[CardColor.ORANGE] += 10;
+        m_cardCounts[CardColor.BLACK] += 10;
+        m_cardCounts[CardColor.RED] += 10;
+        m_cardCounts[CardColor.GREEN] += 10;
+        m_cardCounts[CardColor.RAINBOW] += 10;
     }
 
     private Dictionary<CardColor, int> m_cardCounts = new Dictionary<CardColor, int>();
