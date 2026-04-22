@@ -17,6 +17,7 @@ public class MainSceneUIManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI m_titleTAW, m_contentTAW;
     [SerializeField] private TextMeshProUGUI m_greenCardCount, m_blackCardCount, m_redCardCount, m_blueCardCount, m_yellowCardCount, m_orangeCardCount, m_pinkCardCount, m_whiteCardCount, m_rainbowCardCount;
     [SerializeField] private RawImage m_1stDeskCard, m_2ndDeskCard, m_3rdDeskCard, m_4thDeskCard, m_5thDeskCard;
+    [SerializeField] private RawImage m_1stCardDCW, m_2ndCardDCW, m_3rdCardDCW, m_4thCardDCW, m_5thCardDCW;
     [SerializeField] private GameObject m_deskCardPanel;
     [SerializeField] private Player m_player;
 
@@ -25,6 +26,7 @@ public class MainSceneUIManager : MonoBehaviour
     private Dictionary<CardColor, TextMeshProUGUI> m_cardCountTextMap;
     private Dictionary<int, RawImage> m_deskCardImageMap;
     private Dictionary<CardColor, Texture> m_cardTextureMap;
+    private Dictionary<int, RawImage> m_dcwCardImageMap;
     Texture no_card_texture;
 
     // input actions
@@ -102,6 +104,15 @@ public class MainSceneUIManager : MonoBehaviour
             { 2, m_3rdDeskCard },
             { 3, m_4thDeskCard },
             { 4, m_5thDeskCard }
+        };
+
+        m_dcwCardImageMap = new Dictionary<int, RawImage>
+        {
+            { 0, m_1stCardDCW },
+            { 1, m_2ndCardDCW },
+            { 2, m_3rdCardDCW },
+            { 3, m_4thCardDCW },
+            { 4, m_5thCardDCW }
         };
 
         m_cardTextureMap = new Dictionary<CardColor, Texture>();
@@ -227,6 +238,9 @@ public class MainSceneUIManager : MonoBehaviour
     public void OnDrawCardButtonClicked()
     {
         m_deskCardPanel.SetActive(false);
+
+        List<CardColor> availableCards = m_gameDataCollection.GetAvailableCardsOnDesk();
+
 
         m_turnActionWindow.SetActive(true);
     }
