@@ -102,6 +102,12 @@ public class Player : NetworkBehaviour
                 case EventType.END_TURN:
                     // do something
                     break;
+                case EventType.ISSUE_CARD:
+                    IssueCardEvent issueCardEvent = (IssueCardEvent)nextEvent;
+                    CardColor color = issueCardEvent.GetCardColor();
+                    int number = issueCardEvent.GetCardNumber();
+                    m_handDeck.AddCard(color, number);
+                    break;
             }
         }
     }

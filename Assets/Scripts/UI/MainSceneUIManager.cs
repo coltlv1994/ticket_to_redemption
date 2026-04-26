@@ -20,6 +20,7 @@ public class MainSceneUIManager : MonoBehaviour
     [SerializeField] private RawImage m_1stCardDCW, m_2ndCardDCW, m_3rdCardDCW, m_4thCardDCW, m_5thCardDCW;
     [SerializeField] private GameObject m_deskCardPanel;
     [SerializeField] private Player m_player;
+    [SerializeField] private GameObject m_dcwObject;
 
     private GameDataCollection m_gameDataCollection;
     private EventBase m_pendingEvent;
@@ -38,6 +39,8 @@ public class MainSceneUIManager : MonoBehaviour
     // Camera control
     private bool isRightMouseHold = false;
     private Vector2 kbInput = Vector2.zero;
+
+    private List<int> m_selectedCardIndex = new List<int>();
 
     void Awake()
     {
@@ -83,6 +86,7 @@ public class MainSceneUIManager : MonoBehaviour
 
         m_notificationWindow.SetActive(true);
         m_turnActionWindow.SetActive(false);
+        m_dcwObject.SetActive(false);
 
         m_cardCountTextMap = new Dictionary<CardColor, TextMeshProUGUI>
         {
@@ -227,22 +231,180 @@ public class MainSceneUIManager : MonoBehaviour
         for (int i = 0; i < deskCards.Count; i++)
         {
             m_deskCardImageMap[i].texture = m_cardTextureMap[deskCards[i]];
+            m_dcwCardImageMap[i].texture = m_cardTextureMap[deskCards[i]];
         }
 
         for (; numOfCards < 5; numOfCards++)
         {
             m_deskCardImageMap[numOfCards].texture = no_card_texture;
+            m_dcwCardImageMap[numOfCards].texture = no_card_texture;
         }
     }
 
     public void OnDrawCardButtonClicked()
     {
         m_deskCardPanel.SetActive(false);
+        m_dcwObject.SetActive(true);
 
         List<CardColor> availableCards = m_gameDataCollection.GetAvailableCardsOnDesk();
 
+    }
 
-        m_turnActionWindow.SetActive(true);
+    public void OnDCWButton1Clicked()
+    {
+        bool isSelected = GameDataCollection.GetInstance().ToggleCardSelection(0);
+
+        if (isSelected)
+        {
+            m_1stCardDCW.color = UnityEngine.Color.grey;
+            m_selectedCardIndex.Add(0);
+        }
+        else
+        {
+            m_1stCardDCW.color = UnityEngine.Color.white;
+            m_selectedCardIndex.Remove(0);
+        }
+    }
+
+    public void OnDCWButton2Clicked()
+    {
+        bool isSelected = GameDataCollection.GetInstance().ToggleCardSelection(1);
+
+        if (isSelected)
+        {
+            m_2ndCardDCW.color = UnityEngine.Color.grey;
+            m_selectedCardIndex.Add(1);
+        }
+        else
+        {
+            m_2ndCardDCW.color = UnityEngine.Color.white;
+            m_selectedCardIndex.Remove(1);
+        }
+    }
+
+    public void OnDCWButton3Clicked()
+    {
+        bool isSelected = GameDataCollection.GetInstance().ToggleCardSelection(2);
+
+        if (isSelected)
+        {
+            m_3rdCardDCW.color = UnityEngine.Color.grey;
+            m_selectedCardIndex.Add(2);
+        }
+        else
+        {
+            m_3rdCardDCW.color = UnityEngine.Color.white;
+            m_selectedCardIndex.Remove(2);
+        }
+    }
+
+    public void OnDCWButton4Clicked()
+    {
+        bool isSelected = GameDataCollection.GetInstance().ToggleCardSelection(3);
+
+        if (isSelected)
+        {
+            m_4thCardDCW.color = UnityEngine.Color.grey;
+            m_selectedCardIndex.Add(3);
+        }
+        else
+        {
+            m_4thCardDCW.color = UnityEngine.Color.white;
+            m_selectedCardIndex.Remove(3);
+        }
+    }
+
+    public void OnDCWButton5Clicked()
+    {
+        bool isSelected = GameDataCollection.GetInstance().ToggleCardSelection(4);
+
+        if (isSelected)
+        {
+            m_5thCardDCW.color = UnityEngine.Color.grey;
+            m_selectedCardIndex.Add(4);
+        }
+        else
+        {
+            m_5thCardDCW.color = UnityEngine.Color.white;
+            m_selectedCardIndex.Remove(4);
+        }
+    }
+
+    public void OnDCWConfirmButtonClicked()
+    {
+        GameDataCollection gdc = GameDataCollection.GetInstance();
+        List<CardColor> selectedCards = new List<CardColor>();
+
+        if (gdc != null)
+        {
+            gdc.ResetDrawCardLimit(selectedCards);
+        }
+
+        foreach (CardColor card in selectedCards)
+        {
+            m_player.AddEvent(new IssueCardEvent(card));
+        }
+
+        // reset UI
+        m_1stCardDCW.color = UnityEngine.Color.white;
+        m_2ndCardDCW.color = UnityEngine.Color.white;
+        m_3rdCardDCW.color = UnityEngine.Color.white;
+        m_4thCardDCW.color = UnityEngine.Color.white;
+        m_5thCardDCW.color = UnityEngine.Color.white;
+
+        // clear local store
+        m_selectedCardIndex.Clear();
+        m_dcwObject.SetActive(false);
+        m_deskCardPanel.SetActive(true);
+    }
+
+    public void OnDCWRandomCardClicked()
+    {
+        GameDataCollection gdc = GameDataCollection.GetInstance();
+
+        // Get draw card upper limit
+        int drawCardLimit = gdc.GetDrawCardLimit();
+
+        // check if we should remove one from selected
+        if (m_selectedCardIndex.Count == drawCardLimit)
+        {
+            switch (m_selectedCardIndex[0])
+            {
+                case 0:
+                    OnDCWButton1Clicked();
+                    break;
+                case 1:
+                    OnDCWButton2Clicked();
+                    break;
+                case 2:
+                    OnDCWButton3Clicked();
+                    break;
+                case 3:
+                    OnDCWButton4Clicked();
+                    break;
+                case 4:
+                    OnDCWButton5Clicked();
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        // decrease one upper limit from GDC
+        GameDataCollection.GetInstance().ReduceOneDrawCardLimit();
+        drawCardLimit -= 1;
+
+        // issue one random card to player
+        if (m_player != null)
+        {
+            m_player.AddEvent(new DrawCardEvent());
+        }
+
+        if (drawCardLimit <= 0)
+        {
+            // as if clicked confirm
+            OnDCWConfirmButtonClicked();
+        }
     }
 
     public void ResetAllUIElements()
@@ -255,7 +417,7 @@ public class MainSceneUIManager : MonoBehaviour
 
     private void OnMouseClickAction(InputAction.CallbackContext obj)
     {
-        if (m_turnActionWindow.activeSelf == true)
+        if (m_turnActionWindow.activeSelf == true || m_dcwObject.activeSelf == true)
         {
             // if turn action window is active, ignore mouse click on the map
             return;

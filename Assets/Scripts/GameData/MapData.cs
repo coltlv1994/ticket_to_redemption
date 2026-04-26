@@ -62,7 +62,8 @@ public enum EventType
     CLAIM_ROUTE,
     DISCARD_CARD,
     DRAW_TICKET,
-    END_TURN
+    END_TURN,
+    ISSUE_CARD // for given color and number
 }
 
 public enum TicketType
