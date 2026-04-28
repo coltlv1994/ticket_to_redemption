@@ -63,7 +63,8 @@ public enum EventType
     DISCARD_CARD,
     DRAW_TICKET,
     END_TURN,
-    ISSUE_CARD // for given color and number
+    ISSUE_CARD, // for given color and number
+    GAME_START_DEST, // a special event that would give five short travels and two long travels
 }
 
 public enum TicketType

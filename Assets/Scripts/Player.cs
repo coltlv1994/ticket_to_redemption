@@ -152,6 +152,11 @@ public class Player : NetworkBehaviour
 
     }
 
+    private bool NotifyUIForGameStartEvent()
+    {
+        return true;
+    }
+
     private HashSet<StationName> m_connectedStations;
     private int m_remainingCarts = 45;
     private HandDeck m_handDeck = new HandDeck();

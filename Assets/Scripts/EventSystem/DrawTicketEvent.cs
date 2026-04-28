@@ -7,22 +7,23 @@ public class DrawTicketEvent : EventBase
         return EventType.DRAW_TICKET;
     }
 
-    public DrawTicketEvent(TicketType p_ticketType = TicketType.NORMAL, int p_numOfTicketsToDraw = 3) : base()
+    public DrawTicketEvent(int p_numOfTicketsToDraw = 1, int p_minimumNumberToKeep = 0) : base()
     {
-        m_ticketType = p_ticketType;
         m_numOfTicketsToDraw = p_numOfTicketsToDraw;
+        m_minimumNumberToKeep = p_minimumNumberToKeep;
     }
 
-    public TicketType GetTicketType()
-    {
-        return m_ticketType;
-    }
 
     public int GetNumberOfTicketsToDraw()
     {
         return m_numOfTicketsToDraw;
     }
 
-    private TicketType m_ticketType;
+    public int GetMinimumNumberToKeep()
+    {
+        return m_minimumNumberToKeep;
+    }
+
     private int m_numOfTicketsToDraw;
+    private int m_minimumNumberToKeep;
 }

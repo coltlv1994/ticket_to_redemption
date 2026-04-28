@@ -10,7 +10,6 @@ using static UnityEditor.U2D.ScriptablePacker;
 
 public class MainSceneUIManager : MonoBehaviour
 {
-
     [SerializeField] private GameObject m_notificationWindow, m_turnActionWindow;
     [SerializeField] private GameObject m_cancelButonTAW, m_yesButtonTAW;
     [SerializeField] private TextMeshProUGUI m_playerNotification;
@@ -21,6 +20,7 @@ public class MainSceneUIManager : MonoBehaviour
     [SerializeField] private GameObject m_deskCardPanel;
     [SerializeField] private Player m_player;
     [SerializeField] private GameObject m_dcwObject;
+    [SerializeField] private GameObject m_tcwObject;
 
     private GameDataCollection m_gameDataCollection;
     private EventBase m_pendingEvent;
@@ -40,7 +40,11 @@ public class MainSceneUIManager : MonoBehaviour
     private bool isRightMouseHold = false;
     private Vector2 kbInput = Vector2.zero;
 
+    // selected card
     private List<int> m_selectedCardIndex = new List<int>();
+
+    // destination cards
+    private List<int> m_selectedTravelCardIndex = new List<int>();
 
     void Awake()
     {
@@ -497,5 +501,12 @@ public class MainSceneUIManager : MonoBehaviour
             Camera.main.transform.SetPositionAndRotation(Camera.main.transform.position, Quaternion.Euler(
                 Camera.main.transform.rotation.eulerAngles + new Vector3(-vector2.y, vector2.x, 0) * Time.deltaTime * 100.0f));
         }
+    }
+
+    public void OnPlayerGameStart(Player p_player)
+    {
+        // ISSUE: do we use player ref passed here or the one serialized in the inspector?
+
+        //m_gameDataCollection
     }
 }

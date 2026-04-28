@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 using static UnityEngine.Rendering.CoreUtils;
@@ -266,6 +267,18 @@ public class GameDataCollection : MonoBehaviour
         return m_allowedCardPickFromDesk;
     }
 
+    public void GameStartCardPick(List<TravelTicket> p_shortTravels, List<TravelTicket> p_longTravels)
+    {
+        int shortTravelCardsToPick = 4;
+        int longTravelCardsToPick = 2;
+
+        p_shortTravels.Clear();
+        p_longTravels.Clear();
+
+        System.Random rng = new System.Random();
+
+    }
+
     #endregion
 
     #region PrivateMethods
@@ -362,6 +375,7 @@ public class GameDataCollection : MonoBehaviour
     public void InstanciateUIConnectionPerfab()
     {
         GenerateMapRoute();
+        GenerateTickets();
 
         foreach (Route route in routes)
         {
@@ -424,6 +438,46 @@ public class GameDataCollection : MonoBehaviour
     private void GenerateTickets()
     {
         // all destination tickets
+        // short travels
+        shortTravels.Add(new TravelTicket(StationName.BUCCHUS, StationName.VALENTINE, 5));
+        shortTravels.Add(new TravelTicket(StationName.PRONGHORN, StationName.BLACKWATER, 5));
+        shortTravels.Add(new TravelTicket(StationName.STRAWBERRY, StationName.DAKOTA, 5));
+        shortTravels.Add(new TravelTicket(StationName.TUMBLEWEED, StationName.DON_JILA, 5));
+        shortTravels.Add(new TravelTicket(StationName.MERCER, StationName.MACFARLANE, 5));
+        shortTravels.Add(new TravelTicket(StationName.ISABELLA, StationName.STRAWBERRY, 6));
+        shortTravels.Add(new TravelTicket(StationName.PRONGHORN, StationName.FLATNECK, 6));
+        shortTravels.Add(new TravelTicket(StationName.EMERALD, StationName.ST_DENIS, 6));
+        shortTravels.Add(new TravelTicket(StationName.STRAWBERRY, StationName.HEARTLAND, 6));
+        shortTravels.Add(new TravelTicket(StationName.BEECHER, StationName.DON_JILA, 6));
+        shortTravels.Add(new TravelTicket(StationName.ISABELLA, StationName.FLATNECK, 7));
+        shortTravels.Add(new TravelTicket(StationName.OCREAGB, StationName.FLATNECK, 7));
+        shortTravels.Add(new TravelTicket(StationName.VALENTINE, StationName.RHODES, 7));
+        shortTravels.Add(new TravelTicket(StationName.VAN_HORN, StationName.RHODES, 7));
+        shortTravels.Add(new TravelTicket(StationName.BEECHER, StationName.DAKOTA, 7));
+        shortTravels.Add(new TravelTicket(StationName.COLTER, StationName.OWANJILA, 8));
+        shortTravels.Add(new TravelTicket(StationName.ISABELLA, StationName.BLACKWATER, 8));
+        shortTravels.Add(new TravelTicket(StationName.BRANDWINE, StationName.HEARTLAND, 8));
+        shortTravels.Add(new TravelTicket(StationName.OCREAGB, StationName.PRISON, 8));
+        shortTravels.Add(new TravelTicket(StationName.PRONGHORN, StationName.OIL_FIELD, 8));
+        shortTravels.Add(new TravelTicket(StationName.VALENTINE, StationName.BUTCHER, 8));
+        shortTravels.Add(new TravelTicket(StationName.BUTCHER, StationName.FLATNECK, 8));
+        shortTravels.Add(new TravelTicket(StationName.STRAWBERRY, StationName.DON_JILA, 8));
+        shortTravels.Add(new TravelTicket(StationName.BEECHER, StationName.MERCER, 8));
+        shortTravels.Add(new TravelTicket(StationName.BENEDICT, StationName.THIEVES, 8));
+        shortTravels.Add(new TravelTicket(StationName.WAPITI, StationName.LAGRAS, 9));
+        shortTravels.Add(new TravelTicket(StationName.WALLACE, StationName.RHODES, 9));
+        shortTravels.Add(new TravelTicket(StationName.EMERALD, StationName.BEECHER, 10));
+        shortTravels.Add(new TravelTicket(StationName.THIEVES, StationName.CALIGA, 10));
+        shortTravels.Add(new TravelTicket(StationName.VALENTINE, StationName.ST_DENIS, 11));
+        shortTravels.Add(new TravelTicket(StationName.RIGGS, StationName.MERCER, 11));
+        shortTravels.Add(new TravelTicket(StationName.BEECHER, StationName.COUJAR, 12));
+        shortTravels.Add(new TravelTicket(StationName.PRISON, StationName.BLACKWATER, 13));
+
+        // long travels
+        longTravels.Add(new TravelTicket(StationName.COLTER, StationName.BENEDICT, 19));
+        longTravels.Add(new TravelTicket(StationName.ANNESBURG, StationName.ARMADILLO, 20));
+        longTravels.Add(new TravelTicket(StationName.BRANDWINE, StationName.DON_JILA, 21));
+        longTravels.Add(new TravelTicket(StationName.WAPITI, StationName.TUMBLEWEED, 23));
     }
 
     private bool IsRainbowCardTooMany(int p_upperLimit = 3)
@@ -441,6 +495,9 @@ public class GameDataCollection : MonoBehaviour
     #endregion
 
     private List<Route> routes;
+    private List<TravelTicket> shortTravels = new List<TravelTicket>();
+    private List<TravelTicket> longTravels = new List<TravelTicket>();
+
     private Dictionary<StationName, Node> mapData;
     private Dictionary<CardColor, int> cardDeck; // this is the main card deck, cards will be drawn from here to player's hand and the desk
     private Dictionary<CardColor, int> desertedCardDeck; // deserted deck

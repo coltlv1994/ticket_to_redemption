@@ -1,16 +1,15 @@
-using UnityEngine;
-
-public class TravelTicket : MonoBehaviour
+public class TravelTicket
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    public TravelTicket(StationName p_startStation, StationName p_endStation, int p_points, TicketType p_ticketType = TicketType.NORMAL)
     {
-        
+        ticketType = p_ticketType;
+        startStation = p_startStation;
+        endStation = p_endStation;
+        points = p_points;
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    public TicketType ticketType;
+    public StationName startStation;
+    public StationName endStation;
+    public int points;
 }
