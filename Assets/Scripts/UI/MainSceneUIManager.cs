@@ -16,6 +16,7 @@ public class MainSceneUIManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI m_playerNotification;
     [SerializeField] private TextMeshProUGUI m_titleTAW, m_contentTAW;
     [SerializeField] private TextMeshProUGUI m_greenCardCount, m_blackCardCount, m_redCardCount, m_blueCardCount, m_yellowCardCount, m_orangeCardCount, m_pinkCardCount, m_whiteCardCount, m_rainbowCardCount;
+    [SerializeField] private TextMeshProUGUI m_remainingCartNumber;
     [SerializeField] private RawImage m_1stDeskCard, m_2ndDeskCard, m_3rdDeskCard, m_4thDeskCard, m_5thDeskCard;
     [SerializeField] private RawImage m_1stCardDCW, m_2ndCardDCW, m_3rdCardDCW, m_4thCardDCW, m_5thCardDCW;
     [SerializeField] private GameObject m_cancelButtonDCW;
@@ -229,37 +230,6 @@ public class MainSceneUIManager : MonoBehaviour
         ResetAllUIElements();
     }
 
-    //public void SetPendingEvent(EventBase p_event, bool p_canAccept)
-    //{
-    //    // p_canAccept means the event can be accepted by player,
-    //    // which will enable the YES button.
-    //    m_pendingEvent = p_event;
-
-    //    EventType eventType = p_event.GetEventType();
-    //    switch (eventType)
-    //    {
-    //        case EventType.BUILD_ROAD:
-    //            BuildRoadEvent buildRoadEvent = (BuildRoadEvent)p_event;
-    //            Connection connection = buildRoadEvent.GetRoadToBuild();
-    //            m_titleTAW.text = "Build Road";
-    //            m_contentTAW.text = $"{connection.m_end1} - {connection.m_end2}\n Cost: {connection.m_totalCost}\n";
-    //            if (!p_canAccept)
-    //            {
-    //                m_yesButtonTAW.SetActive(false);
-    //            }
-    //            else
-    //            {
-    //                m_yesButtonTAW.SetActive(true);
-    //            }
-    //            break;
-
-    //        default:
-    //            break;
-    //    }
-
-    //    m_turnActionWindow.SetActive(true);
-    //}
-
     public void SyncCardCount(Dictionary<CardColor, int> cardCounts)
     {
         foreach (var kvp in cardCounts)
@@ -269,6 +239,11 @@ public class MainSceneUIManager : MonoBehaviour
                 m_cardCountTextMap[kvp.Key].text = kvp.Value.ToString();
             }
         }
+    }
+
+    public void SyncRemainingCartsCount(int p_remainingCount)
+    {
+        m_remainingCartNumber.text = "Remaining: " + p_remainingCount.ToString();
     }
 
     private void UpdateDeskCards(List<CardColor> deskCards)

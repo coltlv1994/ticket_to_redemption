@@ -140,6 +140,7 @@ public class Player : NetworkBehaviour
         HandleEvent();
 
         m_mainSceneUIManager.SyncCardCount(m_handDeck.GetAllCardCounts());
+        m_mainSceneUIManager.SyncRemainingCartsCount(m_remainingCarts);
     }
 
     public bool IsRouteBuildable(Connection p_route)
