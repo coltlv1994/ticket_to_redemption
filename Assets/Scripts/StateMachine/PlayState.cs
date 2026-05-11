@@ -31,11 +31,11 @@ public class PlayState : StateBase
                 // preparation work
                 GameDataCollection.GetInstance().DrawCardsToDesk(5);
                 m_player?.AddEvent(new DrawCardEvent(4));
-                // let AI or other player draw, too
 
-                // draw ticket
-                m_player?.AddEvent(new DrawTicketEvent(TicketType.NORMAL, 3));
-                m_player?.AddEvent(new DrawTicketEvent(TicketType.LONG, 2));
+                // event for travel ticket drawing, 3 normal and 2 long
+                // it is triggered after click "ready" button
+
+
                 // let AI or other player draw, too
 
                 // Game start, need some logic to decide who goes first

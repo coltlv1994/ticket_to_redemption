@@ -58,13 +58,14 @@ public enum StationName
 public enum EventType
 {
     DRAW_CARD,
-    BUILD_ROAD,
-    CLAIM_ROUTE,
+    BUILD_ROAD, // road to build
+    CLAIM_ROAD, // built result from UI manager after handdeck is updated
     DISCARD_CARD,
     DRAW_TICKET,
     END_TURN,
     ISSUE_CARD, // for given color and number
     GAME_START_DEST, // a special event that would give five short travels and two long travels
+    ISSUE_TRAVEL, // for given start and end station and point value
 }
 
 public enum TicketType
@@ -234,6 +235,32 @@ public class HandDeck
         m_cardCounts[CardColor.RED] += 10;
         m_cardCounts[CardColor.GREEN] += 10;
         m_cardCounts[CardColor.RAINBOW] += 10;
+    }
+
+    public int GetCardCountByName(string colorName)
+    {
+        if (Enum.TryParse(colorName, out CardColor color))
+        {
+            return GetCardCount(color);
+        }
+        else
+        {
+            Debug.LogError($"Invalid card color name: {colorName}");
+            return 0;
+        }
+    }
+
+    public List<String> GetAvailableCardStringList()
+    {
+        List<String> cardCountStrings = new List<String>();
+        for (int i = 0; i < (int)CardColor.RAINBOW; i++)
+        {
+            if (m_cardCounts[(CardColor)i] > 0)
+            {
+                cardCountStrings.Add(((CardColor)i).ToString());
+            }
+        }
+        return cardCountStrings;
     }
 
     private Dictionary<CardColor, int> m_cardCounts = new Dictionary<CardColor, int>();

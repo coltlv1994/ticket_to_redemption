@@ -23,6 +23,15 @@ public class Connection
         m_uiList.Add(p_uiPart);
     }
 
+    public void BuiltRoad()
+    {
+        m_isClaimed = true;
+        foreach (UI_Connection ui in m_uiList)
+        {
+            ui.transform.localScale = new Vector3(ui.transform.localScale.x, 1.6f, ui.transform.localScale.z);
+        }
+    }
+
     public StationName m_end1, m_end2;
 
     public int m_totalCost;

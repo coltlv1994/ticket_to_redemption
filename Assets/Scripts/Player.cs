@@ -89,9 +89,23 @@ public class Player : NetworkBehaviour
                     break;
                 case EventType.BUILD_ROAD:
                     // do something
+                    BuildRoadEvent bre = (BuildRoadEvent)nextEvent;
+                    Connection cn_bre = bre.GetRoadToBuild();
+
+                    // send to UI controller to build
+                    m_mainSceneUIManager.OnPlayerBuildRoad(this, m_handDeck, cn_bre);
+
                     break;
-                case EventType.CLAIM_ROUTE:
+                case EventType.CLAIM_ROAD:
                     // do something
+                    // reduce remaining carts, add connected stations, update UI
+                    ClaimRoadEvent cre = (ClaimRoadEvent)nextEvent;
+                    Connection cn_cre = cre.GetRoadToClaim();
+                    cn_cre.BuiltRoad();
+
+                    m_remainingCarts -= cn_cre.m_totalCost;
+                    m_builtConnections.Add(cn_cre);
+
                     break;
                 case EventType.DISCARD_CARD:
                     // do something
@@ -107,6 +121,14 @@ public class Player : NetworkBehaviour
                     CardColor color = issueCardEvent.GetCardColor();
                     int number = issueCardEvent.GetCardNumber();
                     m_handDeck.AddCard(color, number);
+                    break;
+                case EventType.GAME_START_DEST:
+                    GameStartDestEvent gameStartDestEvent = (GameStartDestEvent)nextEvent;
+                    NotifyUIForGameStartEvent();
+                    break;
+                case EventType.ISSUE_TRAVEL:
+                    IssueTravelCardEvent issueTravelEvent = (IssueTravelCardEvent)nextEvent;
+                    m_travelTickets.Add(issueTravelEvent.GetTravelTicket());
                     break;
             }
         }
@@ -148,18 +170,19 @@ public class Player : NetworkBehaviour
             }
         }
 
-        return canBuildRoute;
-
+        return (canBuildRoute && m_remainingCarts >= p_route.m_totalCost);
     }
 
-    private bool NotifyUIForGameStartEvent()
+    private void NotifyUIForGameStartEvent()
     {
-        return true;
+        m_mainSceneUIManager.OnPlayerDrawTravel(this, 3, 2);
     }
 
     private HashSet<StationName> m_connectedStations;
     private int m_remainingCarts = 45;
     private HandDeck m_handDeck = new HandDeck();
+    private List<TravelTicket> m_travelTickets = new List<TravelTicket>();
+    private List<Connection> m_builtConnections = new List<Connection>();
 
     // Event
     private Queue<EventBase> m_eventQueue = new Queue<EventBase>();

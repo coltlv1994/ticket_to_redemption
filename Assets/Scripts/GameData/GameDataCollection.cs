@@ -267,15 +267,31 @@ public class GameDataCollection : MonoBehaviour
         return m_allowedCardPickFromDesk;
     }
 
-    public void GameStartCardPick(List<TravelTicket> p_shortTravels, List<TravelTicket> p_longTravels)
+    public bool FillTravelCards(List<TravelTicket> out_shortTravles, List<TravelTicket> out_longTravles, int p_shortTravelsNeeded, int p_longTravelsNeeded)
     {
-        int shortTravelCardsToPick = 4;
-        int longTravelCardsToPick = 2;
+        if (shortTravels.Count < p_shortTravelsNeeded || longTravels.Count < p_longTravelsNeeded)
+        {
+            Debug.LogError("Not enough travel tickets to fill the player's hand!");
+            return false;
+        }
 
-        p_shortTravels.Clear();
-        p_longTravels.Clear();
+        System.Random random = new System.Random();
 
-        System.Random rng = new System.Random();
+        for (int i = 0; i < p_shortTravelsNeeded; i++)
+        {
+            int randomIndex = random.Next(shortTravels.Count);
+            out_shortTravles.Add(shortTravels[randomIndex]);
+            shortTravels.RemoveAt(randomIndex);
+        }
+
+        for (int i = 0; i < p_longTravelsNeeded; i++)
+        {
+            int randomIndex = random.Next(longTravels.Count);
+            out_longTravles.Add(longTravels[randomIndex]);
+            longTravels.RemoveAt(randomIndex);
+        }
+
+        return true;
 
     }
 

@@ -8,6 +8,11 @@ public class TravelTicket
         points = p_points;
     }
 
+    public override string ToString()
+    {
+        return $"{startStation} to {endStation}, {points} pts";
+    }
+
     public TicketType ticketType;
     public StationName startStation;
     public StationName endStation;
